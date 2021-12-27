@@ -1,0 +1,53 @@
+{% extends 'main/base.html' %}
+
+{% block main %}
+    <div class="main__register">
+        {% for f in form %}
+            {% if f.errors %}
+                    {{ f.errors }}
+            {% endif %}
+        {% endfor %}
+        <h1>Реєстрація</h1>
+        <hr>
+        <form method="post">
+            {% csrf_token %}
+            <div>
+                <label>Ім'я<br>
+                    {{ form.first_name }}
+                </label>
+            </div>
+            <div>
+                <label>Призвище<br>
+                    {{ form.last_name }}
+                </label>
+            </div>
+            <div>
+                <label>Логін<br>
+                    {{ form.username }}
+                </label>
+            </div>
+            <div>
+                <label>Почта<br>
+                    {{ form.email }}
+                </label>
+            </div>
+            <div>
+                <label>Пароль<br>
+                    {{ form.password1 }}
+                </label>
+            </div>
+            <div>
+                <label>Повторіть пароль<br>
+                    {{ form.password2 }}
+                </label>
+            </div>
+            <div>
+                <button type="submit" class="button__submit">Реєстрація</button>
+            </div>
+
+        </form>
+        <a>Вже зареєстровані?  </a><a href="{% url 'login' %}">Увійти</a>
+        <hr>
+    </div>
+{% endblock %}
+

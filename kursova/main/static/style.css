@@ -1,0 +1,132 @@
+/* Обнулення */
+*,
+*::before,
+*::after{
+    padding: 0;
+    margin: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+a {
+    text-decoration: none;
+}
+ul,
+ol,
+li{
+    list-style: none;
+}
+img{
+    vertical-align: top;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
+    font-weight: inherit;
+    font-size: inherit;
+}
+html,
+body{
+    height: 100%;
+    line-height: 1;
+    font-size: 16px;
+    color: #1a1c1e;
+    font-family: Verdana, sans-serif;
+    background-color: #f2f2f2;
+}
+button{
+    font-family: Verdana, sans-serif;
+    font-size: 16px;
+}
+.wrapper{
+    min-height: 100%;
+    overflow: hidden;  /* Обрізає контент без прокрутки */
+    display: flex;
+    flex-direction: column;
+}
+._container{
+    max-width: 1400px;
+    margin: 0 auto;  /* Виставляє блок посередині */
+}
+.header{
+    background-color: #1a1c1e;
+    width: 100%;
+}
+.header__container{
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    justify-content: space-between;
+}
+.header__logo{
+    font-size: 40px;
+}
+.header__logo a{
+    color: #d9d4d4;
+}
+.button {
+    background: transparent;
+    padding: 8px 15px;
+    border-radius: 6px;
+    border: 3px solid #d9d4d4;
+    color: #d9d4d4;
+}
+.button:hover{
+    border-color: #a91515;
+    color: #a91515;
+}
+.main__container{
+    padding: 20px 15px 0 15px;
+}
+h1{
+    font-size: 40px;
+    padding: 0 0 20px 0;
+}
+hr{
+    border-bottom: 2px solid #707273;
+    margin: 20px 0;
+}
+label{
+    font-size: 20px;
+}
+input{
+    border: 3px solid #707273;
+    border-radius: 6px;
+    margin: 10px 0;
+    padding: 10px;
+    width: 400px;
+}
+input:focus{
+    border-color: #a91515;
+    outline: none;
+}
+.button__submit{
+    background-color: transparent;
+    color: #707273;
+    border-radius: 6px;
+    font-size: 18px;
+    margin: 15px 0;
+    width: 400px;
+    height: 40px;
+    transition: box-shadow 0.2s ease;
+    border: 3px solid #707273;
+}
+.button__submit:hover {
+    box-shadow: 0 4px 0 #a91515;
+    color: #a91515;
+    border-color: #a91515;
+}
+.button__submit:active {
+    transform: scale(0.97);
+}
+
+.errorlist{
+    background-color: rgba(255, 44, 44, 0.79);
+    border-radius: 5px;
+    padding: 10px;
+    margin: 0 0 10px 0;
+    color: #e8e8e8;
+}
