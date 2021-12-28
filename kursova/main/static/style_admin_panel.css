@@ -1,0 +1,33 @@
+.main__admin__menu{
+    width: 300px;
+    background: #505050;
+    padding: 20px 0 20px 20px;
+}
+
+.main__container{
+    display: flex;
+}
+
+a{
+    text-decoration: none;
+    color: #e5e5e5;
+}
+
+.menu__item{
+    display: inline-block;
+    padding: 10px 20px;
+    width: 100%;
+    margin: 5px 0;
+}
+
+.menu__item:hover{
+    color: #1a1c1e;
+    background: #d9d4d4;
+    border-radius: 10px 0 0 10px;
+}
+
+.main__admin__panel{
+    background: #d9d4d4;
+    width: 100%;
+    padding: 20px;
+}

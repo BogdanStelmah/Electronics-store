@@ -1,10 +1,9 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+
 from django.shortcuts import render, redirect
 
 from .models import Product
-from .forms import RegistrationForm, LoginForm, ProductForm
+from .forms import ProductForm
 
 
 # @login_required(login_url='login')
@@ -13,62 +12,14 @@ def index(request):
     return render(request, 'main/index.html', {'title': 'Головна сторінка сайту', 'product': product})
 
 
-def loginPage(request):
-    if request.user.is_authenticated:
-        return redirect('home')
-    else:
-        if request.method == 'POST':
-            user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
-
-            if user is not None:
-                login(request, user)
-                return redirect('home')
-            else:
-                messages.info(request, 'Невірний логін або пароль')
-
-        form = LoginForm()
-        context = {
-            'form': form,
-            'title': 'Авторизація'
-        }
-
-    return render(request, 'main/login.html', context)
-
-
-def logoutUser(request):
-    logout(request)
-    return redirect('home')
-
-
-def register(request):
-    if request.user.is_authenticated:
-        return redirect('home')
-    else:
-        error = ''
-        if request.method == 'POST':
-            form = RegistrationForm(request.POST)
-            if form.is_valid():
-                form.save()
-                return redirect('login')
-        else:
-            form = RegistrationForm()  # сттандартна форма реєстрації Django
-
-        context = {
-            'form': form,
-            'error': error,
-            'title': 'Реєстрація'
-        }
-
-        return render(request, 'main/register.html', context)
-
-
 def create_product(request):
     if not request.user.is_superuser:
         return redirect('home')
     else:
         error = ''
         if request.method == 'POST':  # передаються данні якщо метод пост
-            form = ProductForm(request.POST)  # отримуємо данні
+            form = ProductForm(request.POST, request.FILES)  # отримуємо данні
+
             if form.is_valid():  # перевіряємо на коретність
                 # form.save()
                 try:
@@ -86,3 +37,13 @@ def create_product(request):
             'error': error
         }
         return render(request, 'main/create_product.html', context)
+
+
+def admin_panel(request):
+    if not request.user.is_superuser:
+        return redirect('home')
+    else:
+        context = {
+            'title': 'Адмін панель'
+        }
+        return render(request, 'main/admin_panel.html', context)

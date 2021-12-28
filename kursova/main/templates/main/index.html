@@ -3,7 +3,7 @@
 {% block button %}
     {% if user.is_authenticated %}
         {% if user.is_superuser %}
-            <a href="{% url 'create_product' %}" class="button_create_product button">Додати товар</a>
+            <a href="{% url 'admin_panel' %}" class="button_create_product button">Адмін панель</a>
         {% endif %}
         <a href="{% url 'logout' %}" class="button_create_product button">Вийти</a>
     {% else %}

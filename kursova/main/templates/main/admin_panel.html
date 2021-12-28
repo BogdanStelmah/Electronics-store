@@ -1,0 +1,16 @@
+{% extends 'main/base.html' %}
+
+{% block style %}
+    <link href="static/style_admin_panel.css" rel="stylesheet">
+{% endblock %}
+
+{% block main %}
+    <div class="main__admin__menu">
+        <a href="#" class="menu__item">Користувачі</a>
+        <a href="#" class="menu__item">Товари</a>
+        <a href="#" class="menu__item">Категорії</a>
+    </div>
+    <div class="main__admin__panel">
+        {% block info_item %}{% endblock %}
+    </div>
+{% endblock %}
