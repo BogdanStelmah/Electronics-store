@@ -7,10 +7,17 @@
 {% block main %}
     <div class="main__admin__menu">
         <a href="{% url 'users_db' %}" class="menu__item">Користувачі</a>
-        <a href="#" class="menu__item">Товари</a>
-        <a href="#" class="menu__item">Категорії</a>
+        <a href="{% url 'category_db' %}" class="menu__item">Товари</a>
+        <a href="{% url 'product_db' %}" class="menu__item">Категорії</a>
     </div>
     <div class="main__admin__panel">
+        {% if messages %}
+            <ul class="messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
         {% block info_item %}{% endblock %}
     </div>
 {% endblock %}

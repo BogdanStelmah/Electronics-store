@@ -1,0 +1,43 @@
+{% extends 'admin_module/admin_panel.html' %}
+
+{% block user %}
+    class="active_item"
+{% endblock%}
+
+{% block info_item %}
+    {% for f in form %}
+        {% if f.errors %}
+            {{ f.errors }}
+        {% endif %}
+    {% endfor %}
+    <h1>Зміна інформації користувача</h1>
+        <p></p>
+        <hr>
+        <form method="POST" novalidate>
+            {% csrf_token %}
+            {% load widget_tweaks %}
+            <div>
+                <label>Ім'я<br>
+                    {% render_field form.first_name value=user.first_name %}
+                </label>
+            </div>
+            <div>
+                <label>Призвище<br>
+                    {% render_field form.last_name value=user.last_name %}
+                </label>
+            </div>
+            <div>
+                <label>Логін<br>
+                    {% render_field form.username value=user.username %}
+                </label>
+            </div>
+            <div>
+                <label>Почта<br>
+                    {% render_field form.email value=user.email %}
+                </label>
+            </div>
+            <div>
+                <button type="submit" class="button__submit">Зберегти</button>
+            </div>
+        </form>
+{% endblock %}

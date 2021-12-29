@@ -31,3 +31,38 @@ a{
     width: 100%;
     padding: 20px;
 }
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td, th{
+    border: 2px solid #707273;
+    text-align: center;
+    padding: 10px;
+}
+
+.button_edit, .button_delete{
+    background: #207e10;
+    padding: 5px;
+    border-radius: 10px;
+}
+.button_edit:hover{
+    background: #2fb916;
+}
+.button_delete{
+    background: #a91515;
+}
+.button_delete:hover{
+    background: #e71c1c;
+}
+
+td:last-child{
+    border: 0 solid;
+    border-block: 1px solid;
+}
+.active_item{
+    border: 2px solid #a91515;
+}
+

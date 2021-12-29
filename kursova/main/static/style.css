@@ -123,10 +123,13 @@ input:focus{
     transform: scale(0.97);
 }
 
-.errorlist{
+.errorlist, .messages{
     background-color: rgba(255, 44, 44, 0.79);
     border-radius: 5px;
     padding: 10px;
     margin: 0 0 10px 0;
     color: #e8e8e8;
+}
+.messages{
+    background-color: rgba(38, 162, 28, 0.79);
 }

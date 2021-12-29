@@ -1,8 +1,10 @@
 from django.contrib.auth.models import User
+from django.contrib import messages
 from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect
 
-from .forms import ProductForm
+from .forms import ProductForm, EditUserForm
+from main.models import ProductCategory, Product
 
 
 def create_product(request):
@@ -14,9 +16,7 @@ def create_product(request):
             form = ProductForm(request.POST, request.FILES)  # отримуємо данні
 
             if form.is_valid():  # перевіряємо на коретність
-                # form.save()
                 try:
-                    from kursova.main.models import Product
                     Product.objects.create(**form.cleaned_data)
                     return redirect('home')
                 except:
@@ -73,16 +73,56 @@ def edit_user(request, id):
     else:
         try:
             user = User.objects.get(id=id)
+            if request.method == "POST":
+                form = EditUserForm(request.POST)
 
-            if request.POST == "POST":
-                user.update(request.POST)
-                return redirect('users_db')
+                login = User.objects.filter(username=request.POST.get("username"))
+                if len(login) >= 1 and str(user.username) != str(login[0]):
+                    form.add_error('username', "Такий логін вже існує")
+
+                if form.is_valid():
+                    user.first_name = request.POST.get("first_name")
+                    user.last_name = request.POST.get("last_name")
+                    user.username = request.POST.get("username")
+                    user.email = request.POST.get("email")
+                    user.save()
+
+                    messages.add_message(request, messages.INFO, 'Користувача ' + user.username + ' оновлено')
+
+                    return redirect('users_db')
             else:
-                context = {
-                    'title': 'Оновлення інформації'
-                }
-                return render(request, 'admin_module/admin_panel.html', context)
+                form = EditUserForm
+
+            context = {
+                'title': 'Оновлення інформації',
+                'user': user,
+                'form': form
+            }
+            return render(request, 'admin_module/edit_user.html', context)
+
         except User.DoesNotExist:
             return HttpResponseNotFound("<h2>Такого користувача не існує</h2>")
 
 
+def category_db(request):
+    if not request.user.is_superuser:
+        return redirect('home')
+    else:
+        categories = ProductCategory.objects.all()
+        context = {
+            'title': 'Категорії',
+            'categories': categories
+        }
+        return render(request, 'admin_module/category.html', context)
+
+
+def add_category(request):
+    return None
+
+
+def product_db(request):
+    return None
+
+
+def add_product(request):
+    return None
