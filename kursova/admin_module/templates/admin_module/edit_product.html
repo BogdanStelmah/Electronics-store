@@ -1,0 +1,53 @@
+{% extends 'admin_module/admin_panel.html' %}
+
+{% block info_item %}
+    {% for f in form %}
+        {% if f.errors %}
+            {{ f.errors }}
+        {% endif %}
+    {% endfor %}
+    <h1>Зміна категорії</h1>
+        <p></p>
+        <hr>
+        <form method="POST" novalidate enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>
+                <label>Ім'я товару<br>
+                    {{ form.name }}
+                </label>
+            </div>
+            <div>
+                <label>Картинка<br>
+                    {{ form.image }}
+                </label>
+            </div>
+            <div>
+                <label>Опис продукту<br>
+                    {{ form.description }}
+                </label>
+            </div>
+            <div>
+                <label>Ціна<br>
+                    {{ form.price }}
+                </label>
+            </div>
+            <div>
+                <label>Знижка<br>
+                    {{ form.discount }}
+                </label>
+            </div>
+            <div>
+                <label>Кількість<br>
+                    {{ form.number }}
+                </label>
+            </div>
+            <div>
+                <label>Категорія<br>
+                    {{ form.categories }}
+                </label>
+            </div>
+            <div>
+                <button type="submit" class="button__submit">Зберегти</button>
+            </div>
+        </form>
+{% endblock %}

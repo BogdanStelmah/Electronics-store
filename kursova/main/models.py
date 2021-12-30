@@ -14,12 +14,12 @@ class ProductCategory(models.Model):
 
 class Product(models.Model):
     name = models.CharField('Назва товару', max_length=100)
-    image = models.ImageField(upload_to="photo/%Y/%m/%d/")  # записує картрнку в католог
-    description = models.TextField('Опис продукту')
+    image = models.ImageField(upload_to="photo/%Y/%m/%d/", null=True, blank=True)  # записує картрнку в католог
+    description = models.TextField('Опис продукту', null=True)
     price = models.CharField('Ціна', max_length=10)
     discount = models.CharField('Знижка', max_length=3)
     number = models.CharField('Кількість', max_length=10)
-    categories = models.ForeignKey(ProductCategory, on_delete=models.DO_NOTHING)
+    categories = models.ForeignKey(ProductCategory, null=True, on_delete=models.SET_NULL)
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
 

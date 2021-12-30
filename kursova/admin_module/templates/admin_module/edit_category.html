@@ -1,0 +1,24 @@
+{% extends 'admin_module/admin_panel.html' %}
+
+{% block info_item %}
+    {% for f in form %}
+        {% if f.errors %}
+            {{ f.errors }}
+        {% endif %}
+    {% endfor %}
+    <h1>Зміна категорії</h1>
+        <p></p>
+        <hr>
+        <form method="POST" novalidate>
+            {% csrf_token %}
+            {% load widget_tweaks %}
+            <div>
+                <label>Ім'я категорії<br>
+                    {% render_field form.name value=category.name %}
+                </label>
+            </div>
+            <div>
+                <button type="submit" class="button__submit">Зберегти</button>
+            </div>
+        </form>
+{% endblock %}

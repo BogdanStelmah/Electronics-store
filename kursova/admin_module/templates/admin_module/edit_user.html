@@ -1,9 +1,5 @@
 {% extends 'admin_module/admin_panel.html' %}
 
-{% block user %}
-    class="active_item"
-{% endblock%}
-
 {% block info_item %}
     {% for f in form %}
         {% if f.errors %}

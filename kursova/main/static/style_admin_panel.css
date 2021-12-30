@@ -35,6 +35,7 @@ a{
 table{
     width: 100%;
     border-collapse: collapse;
+    margin-bottom: 20px;
 }
 
 td, th{
@@ -57,6 +58,17 @@ td, th{
 .button_delete:hover{
     background: #e71c1c;
 }
+.button_add{
+    background: #707273;
+    padding: 8px 15px;
+    border-radius: 6px;
+    border: 3px solid #707273;
+    color: #d9d4d4;
+    display: inline-block;
+}
+.button_add:hover{
+    border-color: #1a1c1e;
+}
 
 td:last-child{
     border: 0 solid;
@@ -66,3 +78,29 @@ td:last-child{
     border: 2px solid #a91515;
 }
 
+.admin_panel_product{
+    width: 100%;
+    background: white;
+    padding: 15px;
+    margin-top: 20px;
+    display: flex;
+}
+.product_img img{
+    width: 200px;
+    height: 200px;
+}
+.product_info{
+    margin-left: 20px;
+    width: 100%;
+    line-height: 20px;
+}
+.product_info p{
+    margin-bottom: 15px;
+}
+.label__img{
+    border: 3px solid #707273;
+    border-radius: 6px;
+    margin: 10px 0;
+    padding: 10px;
+    width: 400px;
+}

@@ -1,12 +1,12 @@
 from django import forms
+from django.forms import ModelForm
+from main.models import Product
 
 
-class ProductForm(forms.Form):
-    name = forms.CharField(max_length=100)
-    image = forms.ImageField()
-    description = forms.TextInput()
-    price = forms.CharField(max_length=4)
-
+class ProductForm(ModelForm):
+    class Meta:
+        model = Product
+        fields = ["name", "image", "description", "price", "discount", "number", "categories"]
 
 
 class CategoryForm(forms.Form):

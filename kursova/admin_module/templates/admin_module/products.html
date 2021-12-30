@@ -1,0 +1,27 @@
+{% extends 'admin_module/admin_panel.html' %}
+
+{% block info_item %}
+    {% if products %}
+        <a href="{% url 'add_product' %}" class="button_add">Новий товар</a>
+        {% for product in products %}
+            <div class="admin_panel_product">
+                <div class="product_img">
+                    <img src="/photo_product/{{ product.image }}">
+                </div>
+                <div class="product_info">
+                    <b>Назва товару: </b><p>{{ product.name }}</p>
+                    <b>Опис товару: </b><p>{{ product.description }}</p>
+                    <b>Ціна: </b><p>{{ product.price }} грн</p>
+                    <b>Знижка: </b><p>{{ product.discount }}%</p>
+                    <b>Ціна зі знижкою: </b><p>{{ product.price }}%</p>
+                    <b>Кількість на складі: </b><p>{{ product.number }} шт</p>
+                    <b>Категорія: </b><p>{{ product.categories }}</p>
+                    <a href="product/edit/{{ product.id }}" class="button_edit">Змінити</a>
+                    <a href="product/delete/{{ product.id }}" class="button_delete">Видалити</a>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Список з товарами пустий</p>
+    {% endif %}
+{% endblock %}
