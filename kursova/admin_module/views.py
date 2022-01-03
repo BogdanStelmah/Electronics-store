@@ -44,125 +44,122 @@ def delete_user(request, id):
 def edit_user(request, id):
     if not request.user.is_superuser:
         return redirect('home')
-    else:
-        try:
-            user = User.objects.get(id=id)
-            if request.method == "POST":
-                form = EditUserForm(request.POST)
 
-                login = User.objects.filter(username=request.POST.get("username"))
-                if len(login) >= 1 and str(user.username) != str(login[0]):
-                    form.add_error('username', "Такий логін вже існує")
+    try:
+        user = User.objects.get(id=id)
+        if request.method == "POST":
+            form = EditUserForm(request.POST)
 
-                if form.is_valid():
-                    user.first_name = request.POST.get("first_name")
-                    user.last_name = request.POST.get("last_name")
-                    user.username = request.POST.get("username")
-                    user.email = request.POST.get("email")
-                    user.save()
+            login = User.objects.filter(username=request.POST.get("username"))
+            if len(login) >= 1 and str(user.username) != str(login[0]):
+                form.add_error('username', "Такий логін вже існує")
 
-                    messages.add_message(request, messages.INFO, 'Користувача ' + user.username + ' оновлено')
+            if form.is_valid():
+                user.first_name = request.POST.get("first_name")
+                user.last_name = request.POST.get("last_name")
+                user.username = request.POST.get("username")
+                user.email = request.POST.get("email")
+                user.save()
 
-                    return redirect('users_db')
-            else:
-                form = EditUserForm
+                messages.add_message(request, messages.INFO, 'Користувача ' + user.username + ' оновлено')
 
-            context = {
-                'title': 'Оновлення інформації',
-                'user': user,
-                'form': form
-            }
-            return render(request, 'admin_module/edit_user.html', context)
+                return redirect('users_db')
+        else:
+            form = EditUserForm
 
-        except User.DoesNotExist:
-            return HttpResponseNotFound("<h2>Такого користувача не існує</h2>")
+        context = {
+            'title': 'Оновлення інформації',
+            'user': user,
+            'form': form
+        }
+        return render(request, 'admin_module/edit_user.html', context)
+
+    except User.DoesNotExist:
+        return HttpResponseNotFound("<h2>Такого користувача не існує</h2>")
 
 
 def category_db(request):
     if not request.user.is_superuser:
         return redirect('home')
-    else:
-        categories = ProductCategory.objects.all()
-        context = {
-            'title': 'Категорії',
-            'categories': categories
-        }
-        return render(request, 'admin_module/category.html', context)
+
+    categories = ProductCategory.objects.all()
+    context = {
+        'title': 'Категорії',
+        'categories': categories
+    }
+    return render(request, 'admin_module/category.html', context)
 
 
 def add_category(request):
     if not request.user.is_superuser:
         return redirect('home')
+
+    if request.method == "POST":
+        form = CategoryForm(request.POST)  # отримуємо данні
+
+        name_category = ProductCategory.objects.filter(name=request.POST.get('name'))
+        if len(name_category) >= 1 and request.POST.get('name') != name_category[0]:
+            form.add_error('name', "Така категорія вже існує")
+
+        if form.is_valid():
+            messages.add_message(request, messages.INFO, 'Додано нову категорію ')
+            ProductCategory.objects.create(**form.cleaned_data)
+            return redirect('category_db')
     else:
-        if request.method == "POST":
-            form = CategoryForm(request.POST)  # отримуємо данні
+        form = CategoryForm
 
-            name_category = ProductCategory.objects.filter(name=request.POST.get('name'))
-            if len(name_category) >= 1 and request.POST.get('name') != name_category[0]:
-                form.add_error('name', "Така категорія вже існує")
-
-            if form.is_valid():  # перевіряємо на коретність
-                try:
-                    messages.add_message(request, messages.INFO, 'Додано нову категорію ')
-                    ProductCategory.objects.create(**form.cleaned_data)
-                    return redirect('category_db')
-                except:
-                    form.add_error('name', "Неможливо додати до БД данні")
-        else:
-            form = CategoryForm
-
-        context = {
-            'title': "Додавання категорії",
-            'form': form,
-        }
-        return render(request, 'admin_module/add_category.html', context)
+    context = {
+        'title': "Додавання категорії",
+        'form': form,
+    }
+    return render(request, 'admin_module/add_category.html', context)
 
 
 def delete_category(request, id):
     if not request.user.is_superuser:
         return redirect('home')
-    else:
-        try:
-            category = ProductCategory.objects.get(id=id)
-            messages.add_message(request, messages.INFO, 'Категорію ' + str(category) + ' видалено')
-            category.delete()
-            return redirect('category_db')
-        except ProductCategory.DoesNotExist:
-            return HttpResponseNotFound("<h2>Такої категорії не існує</h2>")
+
+    try:
+        category = ProductCategory.objects.get(id=id)
+        messages.add_message(request, messages.INFO, 'Категорію ' + str(category) + ' видалено')
+        category.delete()
+        return redirect('category_db')
+    except ProductCategory.DoesNotExist:
+        return HttpResponseNotFound("<h2>Такої категорії не існує</h2>")
 
 
 def edit_category(request, id):
     if not request.user.is_superuser:
         return redirect('home')
-    else:
-        try:
-            category = ProductCategory.objects.get(id=id)
-            if request.method == "POST":
-                form = CategoryForm(request.POST)
 
-                name_category = ProductCategory.objects.filter(name=request.POST.get("name"))
-                if len(name_category) >= 1 and str(category.name) != str(name_category[0]):
-                    form.add_error('name', "Така категорія вже існує")
+    try:
+        category = ProductCategory.objects.get(id=id)
+        if request.method == "POST":
+            form = CategoryForm(request.POST)
 
-                if form.is_valid():
-                    category.name = request.POST.get("name")
-                    category.save()
+            name_category = ProductCategory.objects.filter(name=request.POST.get("name"))
+            if len(name_category) >= 1 and str(category.name) != str(name_category[0]):
+                form.add_error('name', "Така категорія вже існує")
 
-                    messages.add_message(request, messages.INFO, 'Категорію ' + category.name + ' оновлено')
+            if form.is_valid():
+                category.name = request.POST.get("name")
+                category.save()
 
-                    return redirect('category_db')
-            else:
-                form = CategoryForm
+                messages.add_message(request, messages.INFO, 'Категорію ' + category.name + ' оновлено')
 
-            context = {
-                'title': 'Оновлення інформації',
-                'category': category,
-                'form': form
-            }
-            return render(request, 'admin_module/edit_category.html', context)
+                return redirect('category_db')
+        else:
+            form = CategoryForm
 
-        except ProductCategory.DoesNotExist:
-            return HttpResponseNotFound("<h2>Такогої категорії не існує</h2>")
+        context = {
+            'title': 'Оновлення інформації',
+            'category': category,
+            'form': form
+        }
+        return render(request, 'admin_module/edit_category.html', context)
+
+    except ProductCategory.DoesNotExist:
+        return HttpResponseNotFound("<h2>Такогої категорії не існує</h2>")
 
 
 def product_db(request):
@@ -173,40 +170,35 @@ def product_db(request):
 def add_product(request):
     if not request.user.is_superuser:
         return redirect('home')
+
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)
+        # врручну добавити запис до таблиці з обрахунком відсотків
+        if form.is_valid():
+            form.save()
+            return redirect('product_db')
     else:
-        error = ''
-        if request.method == 'POST':  # передаються данні якщо метод пост
-            form = ProductForm(request.POST, request.FILES)  # отримуємо данні
+        form = ProductForm()
 
-            if form.is_valid():  # перевіряємо на коретність
-                pass
-                try:
-                    Product.objects.create(**form.cleaned_data)
-                    return redirect('home')
-                except:
-                    error = 'Помилка'
-            else:
-                error = 'Невірна форма'
-        else:
-            form = ProductForm()
-
-        context = {
-            'form': form,
-        }
-        return render(request, 'admin_module/add_product.html', context)
+    context = {
+        'form': form,
+    }
+    return render(request, 'admin_module/add_product.html', context)
 
 
 def delete_product(request, id):
     if not request.user.is_superuser:
         return redirect('home')
-    else:
-        try:
-            product = Product.objects.get(id=id)
-            messages.add_message(request, messages.INFO, 'Товар ' + str(product.name) + ' видалено')
-            product.delete()
-            return redirect('product_db')
-        except ProductCategory.DoesNotExist:
-            return HttpResponseNotFound("<h2>Такого товару не існує</h2>")
+
+    try:
+        product = Product.objects.get(id=id)
+
+        messages.add_message(request, messages.INFO, 'Товар ' + str(product.name) + ' видалено')
+        product.delete()
+
+        return redirect('product_db')
+    except ProductCategory.DoesNotExist:
+        return HttpResponseNotFound("<h2>Такого товару не існує</h2>")
 
 
 def edit_product(request, id):

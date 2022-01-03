@@ -6,6 +6,7 @@
             <a href="{% url 'admin_panel' %}" class="button_create_product button">Адмін панель</a>
         {% endif %}
         <a href="{% url 'logout' %}" class="button_create_product button">Вийти</a>
+        <a href="{% url 'account' %}" class="button_create_product button">Акаунт</a>
     {% else %}
         <a href="{% url 'register' %}" class="button_register button">Зареєсруватися</a>
         <a href="{% url 'login' %}" class="button_login button">Увійти</a>
@@ -14,6 +15,14 @@
 
 
 {% block main %}
+    {% if messages %}
+            <ul class="messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+
     {% if product %}
         {% for p in product %}
             <div>

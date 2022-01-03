@@ -1,8 +1,9 @@
 {% extends 'admin_module/admin_panel.html' %}
 
 {% block info_item %}
+    <a href="{% url 'add_product' %}" class="button_add">Новий товар</a>
     {% if products %}
-        <a href="{% url 'add_product' %}" class="button_add">Новий товар</a>
+
         {% for product in products %}
             <div class="admin_panel_product">
                 <div class="product_img">
@@ -13,7 +14,7 @@
                     <b>Опис товару: </b><p>{{ product.description }}</p>
                     <b>Ціна: </b><p>{{ product.price }} грн</p>
                     <b>Знижка: </b><p>{{ product.discount }}%</p>
-                    <b>Ціна зі знижкою: </b><p>{{ product.price }}%</p>
+                    <b>Ціна зі знижкою: </b><p>{{ product.discounted_price }}</p>
                     <b>Кількість на складі: </b><p>{{ product.number }} шт</p>
                     <b>Категорія: </b><p>{{ product.categories }}</p>
                     <a href="product/edit/{{ product.id }}" class="button_edit">Змінити</a>

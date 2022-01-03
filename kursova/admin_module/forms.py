@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from django.forms import ModelForm
 from main.models import Product
 
@@ -6,7 +7,54 @@ from main.models import Product
 class ProductForm(ModelForm):
     class Meta:
         model = Product
-        fields = ["name", "image", "description", "price", "discount", "number", "categories"]
+        fields = ['name', 'image', 'description', 'price', 'discount', 'number', 'categories']
+        widgets = {
+            'discount': forms.NumberInput,
+            'number': forms.NumberInput,
+        }
+
+    def clean_price(self):
+        price = self.cleaned_data['price']
+        try:
+            price = float(price)
+            if price < 0:
+                raise ValidationError("Ціна неможе бути від\'ємною")
+        except:
+            try:
+                price = int(price)
+                if price < 0:
+                    raise ValidationError("Ціна неможе бути від\'ємною")
+            except:
+                raise ValidationError("Невірно вказана ціна")
+
+        return price
+
+    def clean_discount(self):
+        discount = self.cleaned_data['discount']
+
+        try:
+            discount = int(discount)
+        except:
+            raise ValidationError("Невірно вказана знижка")
+
+        if discount < 0 or discount > 100:
+            raise ValidationError("Невірно вказана знижка")
+
+        return discount
+
+    def clean_number(self):
+        number = self.cleaned_data['number']
+        error = ValidationError("Невірно вказана кількість")
+
+        try:
+            number = int(number)
+        except:
+            raise error
+
+        if number < 0:
+            raise error
+
+        return number
 
 
 class CategoryForm(forms.Form):

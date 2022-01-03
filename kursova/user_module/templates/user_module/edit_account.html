@@ -1,0 +1,40 @@
+{% extends 'main/base.html' %}
+
+{% block main %}
+    <div class="main__register">
+        {% for f in form %}
+            {% if f.errors %}
+                {{ f.errors }}
+            {% endif %}
+        {% endfor %}
+        <h1>Зміна інофрмації</h1>
+        <hr>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>
+                <label>Ім'я<br>
+                    {{ form.first_name }}
+                </label>
+            </div>
+            <div>
+                <label>Призвище<br>
+                    {{ form.last_name }}
+                </label>
+            </div>
+            <div>
+                <label>Логін<br>
+                    {{ form.username }}
+                </label>
+            </div>
+            <div>
+                <label>Почта<br>
+                    {{ form.email }}
+                </label>
+            </div>
+            <div>
+                <button type="submit" class="button__submit">Змінити</button>
+            </div>
+        </form>
+        <hr>
+    </div>
+{% endblock %}

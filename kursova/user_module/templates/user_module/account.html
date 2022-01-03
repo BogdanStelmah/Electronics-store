@@ -1,0 +1,32 @@
+{% extends 'main/base.html' %}
+
+{% block main %}
+    <div class="main__register">
+        <h1>Акаунт</h1>
+        <hr>
+        <div>
+            <div>
+                <label>Ім'я<br>
+                    {{ user.first_name }}
+                </label>
+            </div>
+            <div>
+                <label>Призвище<br>
+                    {{ user.last_name }}
+                </label>
+            </div>
+            <div>
+                <label>Логін<br>
+                    {{ user.username }}
+                </label>
+            </div>
+            <div>
+                <label>Почта<br>
+                    {{ user.email }}
+                </label>
+            </div>
+            <a href="account/edit/{{ user.id }}/" class="button">Змінити данні</a>
+        </div>
+        <hr>
+    </div>
+{% endblock %}

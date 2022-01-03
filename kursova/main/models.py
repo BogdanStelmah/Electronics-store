@@ -18,6 +18,7 @@ class Product(models.Model):
     description = models.TextField('Опис продукту', null=True)
     price = models.CharField('Ціна', max_length=10)
     discount = models.CharField('Знижка', max_length=3)
+    discounted_price = models.CharField('Ціна зі знижкою', max_length=20, default=0)
     number = models.CharField('Кількість', max_length=10)
     categories = models.ForeignKey(ProductCategory, null=True, on_delete=models.SET_NULL)
     time_create = models.DateTimeField(auto_now_add=True)

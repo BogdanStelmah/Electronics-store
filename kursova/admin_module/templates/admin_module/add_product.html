@@ -8,7 +8,7 @@
     {% endfor %}
     <h1>Створення нового товару</h1>
     <hr>
-    <form method="post" enctype="multipart/form-data" novalidate>
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% load widget_tweaks %}
         <div>
