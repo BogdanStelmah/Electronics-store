@@ -1,12 +1,32 @@
 # from django.contrib import messages
-
+from django.db.models import Q
 from django.shortcuts import render, redirect
 
-from .models import Product
+from .models import Product, ProductCategory
 
 
 # @login_required(login_url='login')
 def index(request):
-    product = Product.objects.order_by('-name')  # сортує по імені, all() виводить всі записи (- це ревьорс) ([:1] - виводить 1 запис)
-    return render(request, 'main/index.html', {'title': 'Головна сторінка сайту', 'product': product})
+    if not request.GET.getlist("category"):
+        if request.GET.get("search") is None:
+            products = Product.objects.all()
+        else:
+            products = Product.objects.filter(name__icontains=request.GET.get("search"))
+    else:
+        if request.GET.get("search") is None:
+            products = Product.objects.filter(categories__name__in=request.GET.getlist("category"))
+        else:
+            products = Product.objects.filter(
+                Q(categories__name__in=request.GET.getlist("category")),
+                Q(name__icontains=request.GET.get("search"))
+            )
 
+    categories = ProductCategory.objects.all()
+
+    context = {
+        'title': 'Головна сторінка сайту',
+        'products': products,
+        'categories': categories
+    }
+
+    return render(request, 'main/index.html', context)

@@ -173,9 +173,17 @@ def add_product(request):
 
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
-        # врручну добавити запис до таблиці з обрахунком відсотків
+
         if form.is_valid():
-            form.save()
+            post = form.save(commit=False)
+
+            price = request.POST.get('price')
+            discount = request.POST.get('discount')
+
+            discounted_price = float(price) - ((float(price) / 100) * int(discount))
+            post.discounted_price = round(discounted_price, 2)
+            post.save()
+
             return redirect('product_db')
     else:
         form = ProductForm()
@@ -208,20 +216,16 @@ def edit_product(request, id):
     try:
         product = Product.objects.get(id=id)
         if request.method == "POST":
-            form = ProductForm(request.POST)
+            form = ProductForm(request.POST, request.FILES, instance=product)
             if form.is_valid():
+                post = form.save(commit=False)
 
-                product.name = request.POST.get("name")
-                product.image = request.FILES.get("image")
-                product.description = request.POST.get("description")
-                product.price = request.POST.get("price")
-                product.discount = request.POST.get("discount")
-                product.number = request.POST.get("number")
+                price = request.POST.get('price')
+                discount = request.POST.get('discount')
 
-                category = ProductCategory.objects.get(id=request.POST.get("categories"))
-                product.categories = category
-
-                product.save()
+                discounted_price = float(price) - ((float(price) / 100) * int(discount))
+                post.discounted_price = round(discounted_price, 2)
+                post.save()
 
                 messages.add_message(request, messages.INFO, 'Товар ' + str(product.name) + ' оновлено')
                 return redirect('product_db')

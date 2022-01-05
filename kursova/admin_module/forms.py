@@ -27,7 +27,7 @@ class ProductForm(ModelForm):
             except:
                 raise ValidationError("Невірно вказана ціна")
 
-        return price
+        return round(price, 2)
 
     def clean_discount(self):
         discount = self.cleaned_data['discount']

@@ -49,6 +49,7 @@ button{
 ._container{
     max-width: 1400px;
     margin: 0 auto;  /* Виставляє блок посередині */
+    display: flex;
 }
 .header{
     background-color: #1a1c1e;
@@ -133,4 +134,13 @@ input:focus{
 }
 .messages{
     background-color: rgba(38, 162, 28, 0.79);
+}
+.main__container__navigation{
+    background: #505050;
+    width: 400px;
+    height: 200px;
+    margin: 0 10px 0 0;
+}
+.main__container__navigation p{
+    color: #d9d4d4;
 }

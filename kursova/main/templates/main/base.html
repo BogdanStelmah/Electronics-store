@@ -22,6 +22,9 @@
             <div class="header__logo">
                 <a href="{% url 'home' %}">electronics store</a>
             </div>
+            <div>
+                {% block search %}{% endblock %}
+            </div>
             <div class="header__buttons">
                 {% block button %}{% endblock %}
             </div>
