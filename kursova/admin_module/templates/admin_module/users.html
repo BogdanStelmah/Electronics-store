@@ -1,9 +1,15 @@
 {% extends 'admin_module/admin_panel.html' %}
 
 {% block info_item %}
+    <form method="get">
+        <div class="search_block">
+            <input type="search" name="search" placeholder="Введіть ім'я..." id="search_name_user">
+            <button type="button" class="search_button" id="search_user" style="border-color: #1a1c1e; color: #1a1c1e" >Пошук</button>
+        </div>
+    </form>
     {% if users %}
-        <div>
-            <table>
+        <div id="users">
+            <table id="table">
                 <tr>
                     <th>
                         №

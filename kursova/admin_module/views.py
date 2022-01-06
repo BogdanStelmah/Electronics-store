@@ -1,6 +1,9 @@
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.http import HttpResponseNotFound
+
+from django.core import serializers
+
+from django.http import HttpResponseNotFound, JsonResponse
 from django.shortcuts import render, redirect
 
 from .forms import ProductForm, EditUserForm, CategoryForm
@@ -21,7 +24,13 @@ def users_db(request):
     if not request.user.is_superuser:
         return redirect('home')
 
+    if request.GET.get('first_name'):
+        users = User.objects.filter(first_name=request.GET.get('first_name'))
+        users = serializers.serialize("json", users)
+        return JsonResponse(users, safe=False)
+
     users = User.objects.all()
+
     context = {
         'title': 'Користувачі',
         'users': users

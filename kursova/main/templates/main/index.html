@@ -10,7 +10,7 @@
 {% block button %}
     {% if user.is_authenticated %}
         {% if user.is_superuser %}
-            <a href="{% url 'admin_panel' %}" class="button_create_product button" xmlns="http://www.w3.org/1999/html">Адмін панель</a>
+            <a href="{% url 'admin_panel' %}" class="button_create_product button">Адмін панель</a>
         {% endif %}
             <a href="{% url 'logout' %}" class="button_create_product button">Вийти</a>
             <a href="{% url 'account' %}" class="button_create_product button">Акаунт</a>
@@ -56,6 +56,7 @@
                 <p>{{ p.price }} грн</p>
                 <p>{{ p.discounted_price }} грн</p>
                 <p>{{ p.categories }} </p>
+                <pre>{{ p.description }} </pre>
             </div>
         {% endfor %}
         {% else %}
