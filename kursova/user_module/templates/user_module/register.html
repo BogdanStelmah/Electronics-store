@@ -4,9 +4,10 @@
     <div class="main__register">
         {% for f in form %}
             {% if f.errors %}
-                    {{ f.errors }}
+                {{ f.errors }}
             {% endif %}
         {% endfor %}
+
         <h1>Реєстрація</h1>
         <hr>
         <form method="post">

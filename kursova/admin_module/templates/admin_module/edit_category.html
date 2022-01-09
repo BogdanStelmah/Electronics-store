@@ -11,10 +11,9 @@
         <hr>
         <form method="POST">
             {% csrf_token %}
-            {% load widget_tweaks %}
             <div>
                 <label>Ім'я категорії<br>
-                    {% render_field form.name value=category.name %}
+                    {{ form.name }}
                 </label>
             </div>
             <div>

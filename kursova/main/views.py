@@ -1,6 +1,5 @@
-# from django.contrib import messages
 from django.db.models import Q
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 
 from .models import Product, ProductCategory
 

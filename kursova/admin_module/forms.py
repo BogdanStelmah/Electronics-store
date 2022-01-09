@@ -1,6 +1,8 @@
 from django import forms
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm
+
 from main.models import Product
 
 
@@ -19,12 +21,12 @@ class ProductForm(ModelForm):
             price = float(price)
             if price < 0:
                 raise ValidationError("Ціна неможе бути від\'ємною")
-        except:
+        except ValueError:
             try:
                 price = int(price)
                 if price < 0:
                     raise ValidationError("Ціна неможе бути від\'ємною")
-            except:
+            except ValueError:
                 raise ValidationError("Невірно вказана ціна")
 
         return round(price, 2)
@@ -34,7 +36,7 @@ class ProductForm(ModelForm):
 
         try:
             discount = int(discount)
-        except:
+        except ValueError:
             raise ValidationError("Невірно вказана знижка")
 
         if discount < 0 or discount > 100:
@@ -48,7 +50,7 @@ class ProductForm(ModelForm):
 
         try:
             number = int(number)
-        except:
+        except ValueError:
             raise error
 
         if number < 0:
@@ -66,3 +68,4 @@ class EditUserForm(forms.Form):
     last_name = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'placeholder': 'Введіть призвище'}))
     username = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'placeholder': 'Введіть логін'}))
     email = forms.EmailField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Введіть пошту'}))
+

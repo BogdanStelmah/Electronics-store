@@ -5,6 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
     {% if title %}
@@ -14,39 +15,38 @@
     {% endif %}
 
     {% block style %}{% endblock %}
+
     <link href="/static/style.css" rel="stylesheet">
 </head>
 <body>
-<div class="wrapper">
-    <header class="header">
-        <div class="header__container _container">
-            <div class="header__logo">
-                <a href="{% url 'home' %}">electronics store</a>
+    <div class="wrapper">
+        <header class="header">
+            <div class="header__container _container">
+                <div class="header__logo">
+                    <a href="{% url 'home' %}">electronics store</a>
+                </div>
+                <div>
+                    {% block search %}{% endblock %}
+                </div>
+                <div class="header__buttons">
+                    {% block button %}{% endblock %}
+                </div>
             </div>
-            <div>
-                {% block search %}{% endblock %}
+        </header>
+
+        <main class="main">
+            <div class="main__container _container">
+                {% block main %}{% endblock %}
             </div>
-            <div class="header__buttons">
-                {% block button %}{% endblock %}
+        </main>
+
+        <footer class="footer">
+            <div class="footer__container _container">
+
             </div>
-        </div>
-    </header>
-
-
-    <main class="main">
-        <div class="main__container _container">
-            {% block main %}{% endblock %}
-        </div>
-    </main>
-
-
-    <footer class="footer">
-        <div class="footer__container _container">
-
-        </div>
-    </footer>
+        </footer>
+    </div>
 
     {% block script %}{% endblock %}
-</div>
 </body>
 </html>

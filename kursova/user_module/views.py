@@ -1,6 +1,5 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect
 
@@ -10,29 +9,32 @@ from django.contrib.auth.models import User
 from admin_module.forms import EditUserForm
 
 
-def loginPage(request):
+def login_page(request):
     if request.user.is_authenticated:
         return redirect('home')
+
+    if request.method == 'POST':
+        user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
+
+        if user is not None:
+            login(request, user)
+
+            return redirect('home')
+        else:
+            form = LoginForm(request.POST)
+            form.add_error('username', "Невірний логін або пароль")
     else:
-        if request.method == 'POST':
-            user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
-
-            if user is not None:
-                login(request, user)
-                return redirect('home')
-            else:
-                messages.info(request, 'Невірний логін або пароль')
-
         form = LoginForm()
-        context = {
-            'form': form,
-            'title': 'Авторизація'
-        }
+
+    context = {
+        'form': form,
+        'title': 'Авторизація'
+    }
 
     return render(request, 'user_module/login.html', context)
 
 
-def logoutUser(request):
+def logout_user(request):
     logout(request)
     return redirect('home')
 
@@ -40,23 +42,22 @@ def logoutUser(request):
 def register(request):
     if request.user.is_authenticated:
         return redirect('home')
+
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('login')
     else:
-        error = ''
-        if request.method == 'POST':
-            form = RegistrationForm(request.POST)
-            if form.is_valid():
-                form.save()
-                return redirect('login')
-        else:
-            form = RegistrationForm()  # сттандартна форма реєстрації Django
+        form = RegistrationForm()  # сттандартна форма реєстрації Django
 
-        context = {
-            'form': form,
-            'error': error,
-            'title': 'Реєстрація'
-        }
+    context = {
+        'form': form,
+        'title': 'Реєстрація'
+    }
 
-        return render(request, 'user_module/register.html', context)
+    return render(request, 'user_module/register.html', context)
 
 
 def account(request):
@@ -72,11 +73,12 @@ def account(request):
 
 
 def edit_account(request, id):
-    if not request.user.is_superuser:
+    if not request.user.is_authenticated or request.user.id != id:
         return redirect('home')
 
     try:
         user = User.objects.get(id=id)
+
         if request.method == "POST":
             form = EditUserForm(request.POST)
 
@@ -91,14 +93,14 @@ def edit_account(request, id):
                 user.email = request.POST.get("email")
                 user.save()
 
-                messages.add_message(request, messages.INFO, 'Користувача ' + user.username + ' оновлено')
+                messages.add_message(request, messages.INFO, 'Акаунт оновлено')
 
                 return redirect('home')
         else:
             form = EditUserForm(initial={'first_name': user.first_name,
-                                        'last_name': user.last_name,
-                                        'username': user.username,
-                                        'email': user.email,
+                                         'last_name': user.last_name,
+                                         'username': user.username,
+                                         'email': user.email,
                                          })
 
         context = {

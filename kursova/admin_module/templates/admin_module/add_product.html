@@ -10,7 +10,6 @@
     <hr>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {% load widget_tweaks %}
         <div>
             <label>Ім'я товару<br>
                 {{ form.name }}

@@ -2,11 +2,13 @@
 
 {% block main %}
     <div class="main__login">
-        {% for message in messages %}
-        <div class="errorlist">{{ message }}</div>
+        {% for f in form %}
+            {% if f.errors %}
+                {{ f.errors }}
+            {% endif %}
         {% endfor %}
+
         <h1>Авторизація</h1>
-        <p></p>
         <hr>
         <form method="post">
             {% csrf_token %}

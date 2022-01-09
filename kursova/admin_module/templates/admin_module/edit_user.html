@@ -11,25 +11,24 @@
         <hr>
         <form method="POST">
             {% csrf_token %}
-            {% load widget_tweaks %}
             <div>
                 <label>Ім'я<br>
-                    {% render_field form.first_name value=user.first_name %}
+                    {{ form.first_name }}
                 </label>
             </div>
             <div>
                 <label>Призвище<br>
-                    {% render_field form.last_name value=user.last_name %}
+                    {{ form.last_name }}
                 </label>
             </div>
             <div>
                 <label>Логін<br>
-                    {% render_field form.username value=user.username %}
+                    {{ form.username }}
                 </label>
             </div>
             <div>
                 <label>Почта<br>
-                    {% render_field form.email value=user.email %}
+                    {{ form.email }}
                 </label>
             </div>
             <div>

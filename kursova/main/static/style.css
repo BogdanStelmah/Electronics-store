@@ -94,7 +94,7 @@ hr{
 label{
     font-size: 20px;
 }
-input{
+input, textarea, select{
     border: 3px solid #707273;
     border-radius: 6px;
     margin: 10px 0;
@@ -135,12 +135,184 @@ input:focus{
 .messages{
     background-color: rgba(38, 162, 28, 0.79);
 }
+
+/*_______________Фільтри та товари__________________*/
+.navigation__title, .navigation__price{
+    color: #d9d4d4;
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+.navigation__price{
+    padding-top: 35px;
+}
+.main__container__navigation label{
+    color: #d9d4d4;
+    font-size: 16px;
+}
+.main__container__navigation input{
+    width: inherit;
+    margin-right: 10px;
+}
+.main__container__navigation button{
+    width: 230px;
+    height: 30px;
+    font-size: 16px;
+    border-color: #d9d4d4;
+    color: #d9d4d4;
+}
+.main__container__navigation button:hover{
+    border-color: #949292;
+    color: #949292;
+    box-shadow: 0 4px 0 #949292;
+}
 .main__container__navigation{
     background: #505050;
-    width: 400px;
-    height: 200px;
     margin: 0 10px 0 0;
+    width: 270px;
+    padding: 20px;
 }
 .main__container__navigation p{
     color: #d9d4d4;
+}
+
+
+.main__container__items > div{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.items__product{
+    border: 1px solid #7c7c7c;
+    padding: 10px;
+    margin: 0 0 10px 10px;
+    height: 370px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.items__product img{
+    width: 240px;
+    height: 240px;
+}
+.product__info{
+    padding: 10px 0 0 0;height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.product__info > h3{
+    margin: 0 0 20px 0;
+}
+.product__price__old{
+    display: flex;
+    align-items: center;
+}
+.product__price__old > s > p{
+    font-size: 13px;
+    color: #707273;
+}
+.product__discount{
+    font-size: 13px;
+    background: #d32225;
+    color: white;
+    padding: 3px;
+    border-radius: 10px;
+    margin-left: 3px;
+}
+.product__price{
+    font-weight: 570;
+}
+.product__number{
+    font-weight: 500;
+    padding: 0 0 10px 0;
+    color: #a91515;
+
+}
+.block__basket__and__price{
+    display: flex;
+    justify-content: space-between;
+
+}
+.block__basket__and__price > img{
+    width: 35px;
+    height: 35px;
+    background: rgba(169, 21, 21, 0.34);
+    padding: 4px;
+    border-radius: 5px;
+}
+
+.button__show__items{
+    justify-content: center;
+    padding: 20px;
+
+}
+.show__item{
+    border-radius: 5px;
+    padding: 8px;
+    width: 150px;
+}
+
+/*__________Реєстрація___________*/
+.main__register > form > div{
+    padding: 0 0 10px 0;
+}
+
+/*_________Aвторизація___________*/
+.main__login > form > div{
+    padding: 0 0 10px 0;
+}
+
+/*_________Акаунт________________*/
+.table__info tr > th, .table__info tr > td{
+    font-size: 20px;
+    padding: 0 20px 12px 0;
+}
+.main__user__info{
+    text-align: left;
+}
+.main__info > div > a{
+    display: inline-block;
+}
+.edit__user{
+    border-color: #505050;
+    color: #505050;
+}
+
+/*________Поле з пошуком_________*/
+.search_button{
+    background: transparent;
+    padding: 8px 15px;
+    border-radius: 6px;
+    border: 3px solid #d9d4d4;
+    color: #d9d4d4;
+}
+
+.search_button:hover{
+    border-color: #a91515;
+    color: #a91515;
+}
+
+.search_block{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+
+/*__________Навігація___________*/
+.price-filter__content{
+    display: flex;
+    align-items: center;
+    color: #d9d4d4;
+}
+.price__filter__content-input, .price__filter__content-input__block{
+    color: #1a1c1e;
+    width: 70px;
+}
+.price__filter__content-label{
+    padding: 0 10px 0 10px;
+}
+.price__filter__content-label:nth-child(1){
+    padding: 0 10px 0 0;
 }

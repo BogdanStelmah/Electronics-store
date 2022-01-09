@@ -2,8 +2,8 @@
 
 {% block info_item %}
     <a href="{% url 'add_product' %}" class="button_add">Новий товар</a>
-    {% if products %}
 
+    {% if products %}
         {% for product in products %}
             <div class="admin_panel_product">
                 <div class="product_img">

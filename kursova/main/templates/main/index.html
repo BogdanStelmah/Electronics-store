@@ -2,8 +2,10 @@
 
 {% block search %}
     <form method="get">
-        <input type="search" name="search" placeholder="Введіть назву...">
-        <button type="submit" class="button">Пошук</button>
+        <div class="search_block">
+            <input type="search" name="search" placeholder="Введіть ім'я..." id="search_name_product">
+            <button type="button" class="search_button" id="search_product" >Пошук</button>
+        </div>
     </form>
 {% endblock %}
 
@@ -22,18 +24,10 @@
 
 
 {% block main %}
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-
     <div class="main__container__navigation">
-        <h3>Фільтр</h3>
-        {% if categories %}
         <form method="get">
+            <h3 class="navigation__title">Розділ</h3>
+            {% if categories %}
             <ul>
                 {% for category in categories %}
                     <li>
@@ -43,28 +37,81 @@
                     </li>
                 {% endfor %}
             </ul>
-            <button type="submit">Шукати</button>
+            <h3 class="navigation__price">Ціна</h3>
+                <div class="price-filter__content">
+                    <div class="price__filter__content-label">
+                        від
+                    </div>
+                    <div class="price__filter__content-input__block">
+                        <input class="price-filter__content-input">
+                    </div>
+                    <div class="price__filter__content-label">
+                        до
+                    </div>
+                    <div class="price__filter__content-input__block">
+                        <input class="price__filter__content-input">
+                    </div>
+                    <div class="price__filter__content-label">
+                        ₴
+                    </div>
+                </div>
+            <button type="button" class="button__submit">Застосувати</button>
         </form>
         {% endif %}
     </div>
-    <div class="main__container__items">
-        {% if products %}
-        {% for p in products %}
-            <div>
-                <img src="photo_product/{{ p.image }}" width="100" height="100">
-                <h3>{{ p.name }}</h3>
-                <p>{{ p.price }} грн</p>
-                <p>{{ p.discounted_price }} грн</p>
-                <p>{{ p.categories }} </p>
-                <pre>{{ p.description }} </pre>
-            </div>
-        {% endfor %}
-        {% else %}
-            <p>Список з товарими пустий</p>
+
+    <div class="main__container__items items">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
         {% endif %}
+
+        <div id="products">
+            {% if products %}
+                {% for p in products %}
+                    <div class="items__product">
+                        <img src="photo_product/{{ p.image }}" width="100" height="100">
+                        <div class="product__info">
+                            <h3>{{ p.name }}</h3>
+                            <div class="product__price">
+                                <div class="info">
+                                    {% if p.number == "0" %}
+                                        <p class="product__number">Немає в наявності</p>
+                                    {% endif %}
+                                    <div class="block__basket__and__price">
+                                        <div>
+                                        {% if p.discount != "0" %}
+                                            <div class="product__price__old">
+                                                <s><p>{{ p.price }} грн</p></s>
+                                                <span class="product__discount">
+                                                    -{{ p.discount }}%
+                                                </span>
+                                            </div>
+                                            <p class="product__price">{{ p.discounted_price }} грн</p>
+                                        {% else %}
+                                            <p>{{ p.price }} грн</p>
+                                        {% endif %}
+                                        </div>
+                                        <img src="/static/img/basket.png" class="basket">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Список з товарими пустий</p>
+            {% endif %}
+        </div>
+        <div class="button__show__items">
+            {% if products %}
+                <a class="button__submit show__item">Показати ще</a>
+            {% endif %}
+        </div>
     </div>
-
-
 {% endblock %}
 <!--<a href="{% url 'home' %}">Home</a>-->
 <!--<a href="{% url 'login' %}">Login</a>-->

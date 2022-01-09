@@ -20,12 +20,20 @@ def admin_panel(request):
     return render(request, 'admin_module/admin_panel.html', context)
 
 
+def is_ajax(request):  # stackoverflow
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
+
 def users_db(request):
     if not request.user.is_superuser:
         return redirect('home')
 
-    if request.GET.get('first_name'):
-        users = User.objects.filter(first_name=request.GET.get('first_name'))
+    if is_ajax(request):
+        if request.GET.get('first_name'):
+            users = User.objects.filter(first_name=request.GET.get('first_name'))
+        else:
+            users = User.objects.all()
+
         users = serializers.serialize("json", users)
         return JsonResponse(users, safe=False)
 
@@ -45,6 +53,7 @@ def delete_user(request, id):
     try:
         user = User.objects.get(id=id)
         user.delete()
+
         return redirect('users_db')
     except User.DoesNotExist:
         return HttpResponseNotFound("<h2>Такого користувача не існує</h2>")
@@ -74,11 +83,14 @@ def edit_user(request, id):
 
                 return redirect('users_db')
         else:
-            form = EditUserForm
+            form = EditUserForm(initial={'first_name': user.first_name,
+                                         'last_name': user.last_name,
+                                         'username': user.username,
+                                         'email': user.email,
+                                         })
 
         context = {
             'title': 'Оновлення інформації',
-            'user': user,
             'form': form
         }
         return render(request, 'admin_module/edit_user.html', context)
@@ -158,11 +170,10 @@ def edit_category(request, id):
 
                 return redirect('category_db')
         else:
-            form = CategoryForm
+            form = CategoryForm(initial={'name': category.name})
 
         context = {
             'title': 'Оновлення інформації',
-            'category': category,
             'form': form
         }
         return render(request, 'admin_module/edit_category.html', context)
