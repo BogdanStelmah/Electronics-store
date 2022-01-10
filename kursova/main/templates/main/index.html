@@ -16,9 +16,12 @@
         {% endif %}
             <a href="{% url 'logout' %}" class="button_create_product button">Вийти</a>
             <a href="{% url 'account' %}" class="button_create_product button">Акаунт</a>
+            <a href="{% url 'basket' %}" class="button__basket"><img src="/static/img/cart_negate.png" class="img__basket"></a>
+
     {% else %}
         <a href="{% url 'register' %}" class="button_register button">Зареєсруватися</a>
         <a href="{% url 'login' %}" class="button_login button">Увійти</a>
+
     {% endif %}
 {% endblock %}
 
@@ -32,7 +35,8 @@
                 {% for category in categories %}
                     <li>
                         <label>
-                            <input type="checkbox" name="category" value="{{ category.name }}">{{ category.name }}
+                            <input type="checkbox" name="category" value="{{ category.name }}" class="filter_checkbox">
+                            {{ category.name }}
                         </label>
                     </li>
                 {% endfor %}
@@ -43,19 +47,22 @@
                         від
                     </div>
                     <div class="price__filter__content-input__block">
-                        <input class="price-filter__content-input">
+                        <input type="number" class="price-filter__content-input" id="price__from" value="0">
                     </div>
                     <div class="price__filter__content-label">
                         до
                     </div>
                     <div class="price__filter__content-input__block">
-                        <input class="price__filter__content-input">
+                        <input type="number" class="price__filter__content-input" id="price__to" value="9999">
                     </div>
                     <div class="price__filter__content-label">
                         ₴
                     </div>
                 </div>
-            <button type="button" class="button__submit">Застосувати</button>
+            <button type="button" class="button__submit" id="filter">Застосувати</button>
+        </form>
+        <form>
+            <button type="submit" class="button__submit">Очистити фільтри</button>
         </form>
         {% endif %}
     </div>
@@ -78,24 +85,24 @@
                             <h3>{{ p.name }}</h3>
                             <div class="product__price">
                                 <div class="info">
-                                    {% if p.number == "0" %}
+                                    {% if p.number == 0 %}
                                         <p class="product__number">Немає в наявності</p>
                                     {% endif %}
                                     <div class="block__basket__and__price">
                                         <div>
-                                        {% if p.discount != "0" %}
-                                            <div class="product__price__old">
-                                                <s><p>{{ p.price }} грн</p></s>
-                                                <span class="product__discount">
-                                                    -{{ p.discount }}%
-                                                </span>
-                                            </div>
-                                            <p class="product__price">{{ p.discounted_price }} грн</p>
-                                        {% else %}
-                                            <p>{{ p.price }} грн</p>
-                                        {% endif %}
+                                            {% if p.discount != 0 %}
+                                                <div class="product__price__old">
+                                                    <s><p>{{ p.price }} грн</p></s>
+                                                    <span class="product__discount">
+                                                        -{{ p.discount }}%
+                                                    </span>
+                                                </div>
+                                                <p class="product__price">{{ p.discounted_price }} грн</p>
+                                            {% else %}
+                                                <p>{{ p.price }} грн</p>
+                                            {% endif %}
                                         </div>
-                                        <img src="/static/img/basket.png" class="basket">
+                                        <a href="add_item_basket/{{ p.id }}/"><img src="/static/img/cart.png" class="basket"></a>
                                     </div>
                                 </div>
                             </div>
@@ -112,6 +119,10 @@
             {% endif %}
         </div>
     </div>
+{% endblock %}
+
+{% block script %}
+    <script src="/static/ajax.js"></script>
 {% endblock %}
 <!--<a href="{% url 'home' %}">Home</a>-->
 <!--<a href="{% url 'login' %}">Login</a>-->

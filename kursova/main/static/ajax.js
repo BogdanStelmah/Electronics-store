@@ -21,42 +21,118 @@ $("#search_user").click(function (){
    });
 });
 
-$("#search_name_product").click(function (){
+$("#search_product").click(function (){
    $.ajax({
       type: 'GET',
       url: '',
       data: {
-         'name': $("#search_name_product").val(),
+         'search': $("#search_name_product").val(),
+         'category': get_arr_checkbox(),
+         'price__from': $("#price__from").val(),
+         'price__to': $("#price__to").val(),
       },
       dataType: 'text',
       cache: false,
       success: function (data) {
-         document.getElementById('products').remove();
-            let context = JSON.parse(JSON.parse(data));
+         document.getElementById('products').textContent = '';
+         let context = JSON.parse(JSON.parse(data));
 
-            if (context.length === 0) {
-               $("#users").append("<p>Товарів з таким ім\'ям не знайдено </p>");
-            }
-            else {
-                showProduct(context);
-            }
+         if (context.length === 0) {
+            $("#products").append("<p>Товарів з таким ім\'ям не знайдено </p>");
+         }
+         else {
+            showProduct(context);
+         }
       }
    });
 });
+
+$("#filter").click(function (){
+   $.ajax({
+      type: 'GET',
+      url: '',
+      data: {
+         'category': get_arr_checkbox(),
+         'price__from': $("#price__from").val(),
+         'price__to': $("#price__to").val(),
+      },
+      dataType: 'text',
+      cache: false,
+      success: function (data) {
+         document.getElementById('products').textContent = '';
+         let context = JSON.parse(JSON.parse(data));
+
+         if (context.length === 0) {
+            $("#products").append("<p>Товарів з таким ім\'ям не знайдено </p>");
+         }
+         else {
+            showProduct(context);
+         }
+      }
+   });
+});
+
+$("#submit__basket").click(function (){
+   $.ajax({
+      type: 'GET',
+      url: 'basket',
+      data: {},
+      dataType: 'text',
+      cache: false
+   });
+});
+
+function get_arr_checkbox(){
+   let checkbox = document.getElementsByClassName('filter_checkbox')
+   let arr_checkbox = [];
+   for (let i = 0; i < checkbox.length; i++){
+      if (checkbox[i].checked){
+         arr_checkbox.push(checkbox[i].value)
+      }
+   }
+
+   return arr_checkbox
+}
 
 function showProduct(products){
    let html = ''
 
    for(let i = 0; i < products.length; i++){
-      html += '<div>\n' +
-          '<img src="photo_product/{{ p.image }}" width="100" height="100">\n' +
-          '<h3>' + products[i].name + '</h3>\n' +
-          '<p>' + products[i].price + ' грн</p>\n' +
-          '<p>' + products[i].discounted_price + ' грн</p>\n' +
-          '<p>' + products[i].categories + ' </p>\n' +
-          '<pre>' + products[i].description + ' </pre>\n' +
-          '</div>'
+      let number = ''
+      if ( products[i].fields.number === 0){
+         number = '<p class="product__number">Немає в наявності</p>';
+      }
+
+      let discount = ''
+      if (products[i].fields.discount !== 0){
+         discount = '<div class="product__price__old">\n' +
+          '          <s><p>'+ products[i].fields.price +' грн</p></s>\n' +
+          '          <span class="product__discount">\n' +
+          '          -'+ products[i].fields.discount +'%\n' +
+          '          </span>\n' +
+          '          </div>\n' +
+          '          <p class="product__price">'+ products[i].fields.discounted_price +' грн</p>\n'
+      }
+      else {
+         discount = '<p>'+ products[i].fields.price +' грн</p>';
+      }
+      html += '<div class="items__product">\n' +
+          '                        <img src="photo_product/'+ products[i].fields.image + '" width="100" height="100">\n' +
+          '                        <div class="product__info">\n' +
+          '                            <h3>'+ products[i].fields.name +'</h3>\n' +
+          '                            <div class="product__price">\n' +
+          '                                <div class="info">\n' + number +
+          '                                    <div class="block__basket__and__price">\n' +
+          '                                        <div>\n' + discount +
+          '                                        </div>\n' +
+          '                                        <img src="/static/img/basket.png" class="basket">\n' +
+          '                                    </div>\n' +
+          '                                </div>\n' +
+          '                            </div>\n' +
+          '                        </div>\n' +
+          '                    </div>'
    }
+   $("#products").append(html);
 }
 
 function showInfoUsers(context) {

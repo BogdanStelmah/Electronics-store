@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'main',
     'user_module',
     'admin_module',
+    'basket_module',
 
     'widget_tweaks',  # для додавання нових класів в template
 ]
@@ -111,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'uk'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Kiev'
 
 USE_I18N = True
 

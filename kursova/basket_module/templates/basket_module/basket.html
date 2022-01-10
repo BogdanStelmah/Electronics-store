@@ -1,0 +1,58 @@
+{% extends 'main/base.html' %}
+
+{% block main %}
+    <div class="main__basket">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% for f in form %}
+            {% if f.errors %}
+                {{ f.errors }}
+            {% endif %}
+        {% endfor %}
+
+        <h1>Кошик</h1>
+        <hr>
+            {% for b in basket %}
+                <div class="basket__item item">
+                    <div class="item__img__info">
+                        <div class="item__img">
+                            <img src="/photo_product/{{ b.product.image }}">
+                        </div>
+                        <div class="item__info">
+                            <p>{{ b.product.name }}</p>
+                        </div>
+                    </div>
+                    <div class="item__menu">
+                        <div>
+                            <button class="remove__quantity">-</button>
+                            <input type="text" value="{{ b.quantity }}" min="0" readonly class="input__quantity">
+                            <button class="add__quantity">+</button>
+                        </div>
+                        <div>
+                            {% if p.discount != 0 %}
+                                <s><p>{{ b.product.price }} грн</p></s><br>
+                                <p class="product__price">{{ b.product.discounted_price }} грн</p>
+                            {% else %}
+                                <p>{{ b.product.price }} грн</p>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <a href="basket/item/{{ b.id }}/delete/" class="button_delete">Видалити</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <button type="submit" class="button__submit" id="submit__basket">Оформити заказ</button>
+        <hr>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="/static/ajax.js"></script>
+{% endblock %}
