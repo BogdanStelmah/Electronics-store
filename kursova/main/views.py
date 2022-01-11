@@ -1,7 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.core import serializers
-from .models import Product, ProductCategory, Basket
-from django.http import JsonResponse
+from django.urls import reverse
+
+from .forms import ReviewsForm
+from .models import Product, ProductCategory, Basket, ReviewsProduct
+from django.http import JsonResponse, HttpResponseRedirect, HttpResponseNotFound
 
 
 def is_ajax(request):
@@ -57,12 +60,45 @@ def index(request):
 
 
 def product(request, pk):
+    if request.method == "POST":
+        form = ReviewsForm(request.POST)
+
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.user = request.user
+            form.product = Product.objects.get(id=pk)
+            form.save()
+
+        return HttpResponseRedirect(reverse('product', args=(pk,)))
+
     product = Product.objects.get(id=pk)
+    reviews = ReviewsProduct.objects.filter(product=product)
+
+    form = ReviewsForm()
 
     context = {
         'title': 'Головна сторінка сайту',
         'product': product,
-        'basket_count': basket_count(request)
+        'basket_count': basket_count(request),
+        'reviews': reviews,
+        'form': form
     }
 
     return render(request, 'main/product.html', context)
+
+
+def delete_reviews(request, pk, pk_review):
+    if not request.user.is_authenticated:
+        return redirect('home')
+
+    try:
+        reviews = ReviewsProduct.objects.get(id=pk_review)
+        if request.user == reviews.user:
+            reviews.delete()
+        else:
+            return redirect('home')
+
+        return HttpResponseRedirect(reverse('product', args=(pk,)))
+
+    except ProductCategory.DoesNotExist:
+        return HttpResponseNotFound("<h2>Такого коментарю не існує</h2>")

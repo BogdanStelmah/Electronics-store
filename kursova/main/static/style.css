@@ -472,4 +472,26 @@ input:focus{
 pre{
     white-space:pre-wrap;
 }
+
+.reviews{
+    border: 2px solid #505050;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 20px 10px 10px 0;
+    width: 100%;
+}
+.hr{
+    margin-top: 3px;
+}
+.button__reviews, .input__textarea__form{
+    width: 100%;
+}
+.reviews__title{
+    display: flex;
+    justify-content: space-between;
+}
+.reviews__delete{
+    text-decoration: none;
+    color: #505050;
+}
 /*_______Слайдер_________*/

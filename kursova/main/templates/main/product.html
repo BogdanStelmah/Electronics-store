@@ -59,8 +59,49 @@
                 {% if user.is_authenticated %}
                     <a href="/add_item_basket/{{ product.id }}/product" class="button__submit basket__text">Додати у кошик</a>
                 {% endif %}
+                <hr>
+
+
             </div>
         </div>
+        <div class="block__reviews reviews">
+                    <p class="product__page__description__title">Відгуки</p>
+                    {% for review in reviews %}
+                        <div class="reviews">
+                            <div class="reviews__title">
+                                <div>
+                                    {{ review.user.last_name }}
+                                    {{ review.user.first_name }}
+                                </div>
+                                {% if review.user == request.user %}
+                                <div>
+                                    <a href="reviews/{{ review.id }}" class="reviews__delete">X</a>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <hr class="hr">
+                            <pre>{{ review.reviews }}</pre>
+                        </div>
+                    {% endfor %}
+                    <form method="post" class="reviews">
+                        {% csrf_token %}
+                        {% load widget_tweaks %}
+                        {{ request.user.last_name }}
+                        {{ request.user.first_name }}
+                        <hr class="hr">
+                        {% for f in form %}
+                            {% if f.errors %}
+                                {{ f.errors }}
+                            {% endif %}
+                        {% endfor %}
+                        <div>
+                            <label>Відгук<br>
+                                {% render_field form.reviews class="input__textarea__form" %}
+                            </label>
+                        </div>
+                        <button type="submit" class="button__submit button__reviews">Залишити відгук</button>
+                    </form>
+                </div>
     </div>
 {% endblock %}
 

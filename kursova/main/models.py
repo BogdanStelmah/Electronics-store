@@ -44,3 +44,16 @@ class Basket(models.Model):
     class Meta:
         verbose_name = 'Корзину'
         verbose_name_plural = 'Корзина'
+
+
+class ReviewsProduct(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    reviews = models.TextField('Відгук', max_length=200)
+
+    def __str__(self):
+        return self.product
+
+    class Meta:
+        verbose_name = 'Відгук'
+        verbose_name_plural = 'Відгуки'
