@@ -69,3 +69,6 @@ class EditUserForm(forms.Form):
     username = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'placeholder': 'Введіть логін'}))
     email = forms.EmailField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Введіть пошту'}))
 
+
+class EditSuperUserForm(EditUserForm):
+    is_superuser = forms.BooleanField(required=False)

@@ -1,0 +1,70 @@
+{% extends 'main/base.html' %}
+
+{% block button %}
+    {% if user.is_authenticated %}
+        {% if user.is_superuser %}
+            <a href="{% url 'admin_panel' %}" class="button_create_product button">Адмін панель</a>
+        {% endif %}
+            <a href="{% url 'logout' %}" class="button_create_product button">Вийти</a>
+            <a href="{% url 'account' %}" class="button_create_product button">Акаунт</a>
+            <a href="{% url 'basket' %}" class="button__basket">
+                <p class="quantity_basket">{% if basket_count != 0 %}{{ basket_count }}{% endif %}</p>
+                <img src="/static/img/cart_negate.png" class="img__basket">
+            </a>
+
+    {% else %}
+        <a href="{% url 'register' %}" class="button_register button">Зареєсруватися</a>
+        <a href="{% url 'login' %}" class="button_login button">Увійти</a>
+
+    {% endif %}
+{% endblock %}
+
+{% block main %}
+    <div class="main__product product">
+        <div class="product__page__info__and__img">
+            <div class="product__page__img">
+                <img src="/photo_product/{{ product.image }}">
+            </div>
+            <div class="product__page__info">
+                <p class="product__page__title">{{ product.name }}</p>
+                <hr>
+                <div class="product__page__description">
+                    <p class="product__page__description__title">Опис</p>
+                    <pre class="product__page__description__text">{{ product.description }}</pre>
+                </div>
+                <hr>
+                <div class="product__price">
+                    <div class="info">
+                        {% if product.number == 0 %}
+                        <p class="product__number">Немає в наявності</p>
+                        {% endif %}
+                        <div class="block__basket__and__price">
+                            <div>
+                                {% if product.discount != 0 %}
+                                <div class="product__price__old">
+                                    <s><p>{{ product.price }} грн</p></s>
+                                    <span class="product__discount">
+                                        -{{ product.discount }}%
+                                    </span>
+                                </div>
+                                <p class="product__price">{{ product.discounted_price }} грн</p>
+                                {% else %}
+                                <p>{{ product.price }} грн</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                {% if user.is_authenticated %}
+                    <a href="/add_item_basket/{{ product.id }}/product" class="button__submit basket__text">Додати у кошик</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block script %}
+    <script src="/static/ajax.js"></script>
+{% endblock %}

@@ -31,6 +31,13 @@
                     {{ form.email }}
                 </label>
             </div>
+            {% if request.user != user %}
+            <div>
+                <label>Адмін
+                    {{ form.is_superuser }}
+                </label>
+            </div>
+            {% endif %}
             <div>
                 <button type="submit" class="button__submit">Зберегти</button>
             </div>

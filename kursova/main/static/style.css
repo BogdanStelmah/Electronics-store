@@ -93,6 +93,8 @@ button{
     border: 3px solid #d9d4d4;
     color: #d9d4d4;
     margin-left: 5px;
+    display: flex;
+    align-items: center;
 }
 .button__basket:hover{
     border-color: #a91515;
@@ -151,6 +153,13 @@ input:focus{
 }
 
 .errorlist, .messages{
+    background-color: rgba(255, 44, 44, 0.79);
+    border-radius: 5px;
+    padding: 10px;
+    margin: 0 0 10px 0;
+    color: #e8e8e8;
+}
+.error{
     background-color: rgba(255, 44, 44, 0.79);
     border-radius: 5px;
     padding: 10px;
@@ -216,7 +225,7 @@ input:focus{
     flex-direction: column;
     justify-content: space-between;
 }
-.items__product > img{
+.items__product > a > img{
     width: 240px;
     height: 240px;
 }
@@ -266,6 +275,9 @@ input:focus{
     border-radius: 5px;
     width: 35px;
     height: 35px;
+}
+.basket__text{
+    padding: 10px;
 }
 
 .button__show__items{
@@ -352,11 +364,11 @@ input:focus{
     border: 2px solid #505050;
     padding: 10px;
     border-radius: 10px;
-    margin-bottom: 10px;
+    margin: 0 10px 10px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 900px;
+    width: 1000px;
 }
 .item__img__info{
     display: flex;
@@ -374,6 +386,8 @@ input:focus{
     border: 2px solid #505050;
     padding: 1px 7px;
     border-radius: 7px;
+    text-decoration: none;
+    color: #505050;
 }
 .input__quantity{
     width: 50px;
@@ -397,3 +411,65 @@ input:focus{
     align-items: center;
     width: 400px;
 }
+.price__all__items{
+    border: 2px solid #505050;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 0 0 10px 0;
+    width: 360px;
+
+}
+.block__basket{
+    display: flex;
+    flex-wrap: wrap;
+}
+.order__button{
+    width: 100%;
+}
+.total__price{
+    font-size: 27px;
+    font-weight: 600;
+    padding-bottom: 20px;
+}
+.info__total{
+    font-size: 18px;
+    padding-bottom: 20px;
+}
+.info_table{
+    width: 100%;
+}
+.info__th{
+    text-align: right;
+}
+
+/*_________Сторінка продукту____________*/
+.product__page__img{
+    margin-right: 20px;
+}
+.product__page__img > img{
+    width: 600px;
+    height: 600px;
+    display: flex;
+}
+.product__page__info{
+    width: 700px;
+    padding: 20px;
+}
+.product__page__info__and__img{
+    display: flex;
+}
+.product__page__title{
+    font-size: 30px;
+    font-weight: 600;
+}
+.product__page__description__title{
+    font-size: 24px;
+    padding-bottom: 10px;
+}
+.product__page__description__text{
+    font-size: 16px;
+}
+pre{
+    white-space:pre-wrap;
+}
+/*_______Слайдер_________*/

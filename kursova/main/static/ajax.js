@@ -22,6 +22,8 @@ $("#search_user").click(function (){
 });
 
 $("#search_product").click(function (){
+   $("#add_product").attr('count_show', "4")
+
    $.ajax({
       type: 'GET',
       url: '',
@@ -30,6 +32,8 @@ $("#search_product").click(function (){
          'category': get_arr_checkbox(),
          'price__from': $("#price__from").val(),
          'price__to': $("#price__to").val(),
+
+         'count_show': 2
       },
       dataType: 'text',
       cache: false,
@@ -48,6 +52,8 @@ $("#search_product").click(function (){
 });
 
 $("#filter").click(function (){
+   $("#add_product").attr('count_show', "4")
+
    $.ajax({
       type: 'GET',
       url: '',
@@ -55,6 +61,8 @@ $("#filter").click(function (){
          'category': get_arr_checkbox(),
          'price__from': $("#price__from").val(),
          'price__to': $("#price__to").val(),
+
+         'count_show': 2
       },
       dataType: 'text',
       cache: false,
@@ -66,21 +74,47 @@ $("#filter").click(function (){
             $("#products").append("<p>Товарів з таким ім\'ям не знайдено </p>");
          }
          else {
+            console.log(context)
             showProduct(context);
          }
       }
    });
 });
 
-$("#submit__basket").click(function (){
+$("#add_product").click(function (){
+   let btn_more = $(this);
+   let count_show = parseInt($(this).attr('count_show'));
+   let count_add  = parseInt($(this).attr('count_add'));
+
    $.ajax({
       type: 'GET',
-      url: 'basket',
-      data: {},
+      url: '',
+      data: {
+         'search': $("#search_name_product").val(),
+         'category': get_arr_checkbox(),
+         'price__from': $("#price__from").val(),
+         'price__to': $("#price__to").val(),
+
+         'count_show': count_show
+      },
       dataType: 'text',
-      cache: false
+      cache: false,
+      success: function (data) {
+         btn_more.attr('count_show', (count_show+count_add));
+
+         document.getElementById('products').textContent = '';
+
+         let context = JSON.parse(JSON.parse(data));
+
+         if (context.length === 0) {
+            $("#products").append("<p>Товарів з таким ім\'ям не знайдено </p>");
+         }
+         else {
+            showProduct(context);
+         }
+      }
    });
-});
+})
 
 function get_arr_checkbox(){
    let checkbox = document.getElementsByClassName('filter_checkbox')
@@ -117,7 +151,7 @@ function showProduct(products){
          discount = '<p>'+ products[i].fields.price +' грн</p>';
       }
       html += '<div class="items__product">\n' +
-          '                        <img src="photo_product/'+ products[i].fields.image + '" width="100" height="100">\n' +
+          '                        <a href="product/'+ products[i].pk +'/"><img src="photo_product/'+ products[i].fields.image + '" width="100" height="100"></a>\n' +
           '                        <div class="product__info">\n' +
           '                            <h3>'+ products[i].fields.name +'</h3>\n' +
           '                            <div class="product__price">\n' +
@@ -125,7 +159,7 @@ function showProduct(products){
           '                                    <div class="block__basket__and__price">\n' +
           '                                        <div>\n' + discount +
           '                                        </div>\n' +
-          '                                        <img src="/static/img/basket.png" class="basket">\n' +
+          '                                        <a href="add_item_basket/'+ products[i].pk + '/"><img src="/static/img/cart.png" class="basket"></a>\n' +
           '                                    </div>\n' +
           '                                </div>\n' +
           '                            </div>\n' +

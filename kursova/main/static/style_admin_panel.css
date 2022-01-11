@@ -119,3 +119,14 @@ td:last-child{
 .main__admin__panel > form > div{
     padding: 0 0 10px 0;
 }
+
+#image-clear_id{
+    width: 20px;
+    margin: 0 0 0 24px;
+}
+.img__form > a{
+    color: #505050;
+}
+#id_is_superuser{
+    width: 30px;
+}

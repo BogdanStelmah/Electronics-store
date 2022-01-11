@@ -6,7 +6,7 @@ from django.core import serializers
 from django.http import HttpResponseNotFound, JsonResponse
 from django.shortcuts import render, redirect
 
-from .forms import ProductForm, EditUserForm, CategoryForm
+from .forms import ProductForm, EditUserForm, CategoryForm, EditSuperUserForm
 from main.models import ProductCategory, Product
 
 
@@ -20,7 +20,7 @@ def admin_panel(request):
     return render(request, 'admin_module/admin_panel.html', context)
 
 
-def is_ajax(request):  # stackoverflow
+def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
@@ -50,6 +50,9 @@ def delete_user(request, id):
     if not request.user.is_superuser:
         return redirect('home')
 
+    if request.user.id == id:
+        return redirect('users_db')
+
     try:
         user = User.objects.get(id=id)
         user.delete()
@@ -66,7 +69,7 @@ def edit_user(request, id):
     try:
         user = User.objects.get(id=id)
         if request.method == "POST":
-            form = EditUserForm(request.POST)
+            form = EditSuperUserForm(request.POST)
 
             login = User.objects.filter(username=request.POST.get("username"))
             if len(login) >= 1 and str(user.username) != str(login[0]):
@@ -77,21 +80,29 @@ def edit_user(request, id):
                 user.last_name = request.POST.get("last_name")
                 user.username = request.POST.get("username")
                 user.email = request.POST.get("email")
+
+                if request.POST.get("is_superuser"):
+                    user.is_superuser = True
+                else:
+                    user.is_superuser = False
+
                 user.save()
 
                 messages.add_message(request, messages.INFO, 'Користувача ' + user.username + ' оновлено')
 
                 return redirect('users_db')
         else:
-            form = EditUserForm(initial={'first_name': user.first_name,
-                                         'last_name': user.last_name,
-                                         'username': user.username,
-                                         'email': user.email,
+            form = EditSuperUserForm(initial={'first_name': user.first_name,
+                                              'last_name': user.last_name,
+                                              'username': user.username,
+                                              'email': user.email,
+                                              'is_superuser': user.is_superuser
                                          })
 
         context = {
             'title': 'Оновлення інформації',
-            'form': form
+            'form': form,
+            'user': user
         }
         return render(request, 'admin_module/edit_user.html', context)
 

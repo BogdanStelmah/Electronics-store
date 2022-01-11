@@ -16,7 +16,10 @@
         {% endif %}
             <a href="{% url 'logout' %}" class="button_create_product button">Вийти</a>
             <a href="{% url 'account' %}" class="button_create_product button">Акаунт</a>
-            <a href="{% url 'basket' %}" class="button__basket"><img src="/static/img/cart_negate.png" class="img__basket"></a>
+            <a href="{% url 'basket' %}" class="button__basket">
+                <p class="quantity_basket">{% if basket_count != 0 %}{{ basket_count }}{% endif %}</p>
+                <img src="/static/img/cart_negate.png" class="img__basket">
+            </a>
 
     {% else %}
         <a href="{% url 'register' %}" class="button_register button">Зареєсруватися</a>
@@ -79,8 +82,11 @@
         <div id="products">
             {% if products %}
                 {% for p in products %}
+
                     <div class="items__product">
-                        <img src="photo_product/{{ p.image }}" width="100" height="100">
+                        <a href="product/{{ p.id }}/">
+                            <img src="photo_product/{{ p.image }}" width="100" height="100">
+                        </a>
                         <div class="product__info">
                             <h3>{{ p.name }}</h3>
                             <div class="product__price">
@@ -115,7 +121,7 @@
         </div>
         <div class="button__show__items">
             {% if products %}
-                <a class="button__submit show__item">Показати ще</a>
+                <a class="button__submit show__item" count_show="4" count_add="2" id="add_product">Показати ще</a>
             {% endif %}
         </div>
     </div>

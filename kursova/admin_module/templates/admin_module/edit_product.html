@@ -11,14 +11,15 @@
         <hr>
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
+            {% load widget_tweaks %}
             <div>
                 <label>Ім'я товару<br>
                     {{ form.name }}
                 </label>
             </div>
             <div>
-                <label>Картинка<br>
-                    {{ form.image }}
+                <label class="img__form">
+                    {% render_field form.image class="input__img__form" %}
                 </label>
             </div>
             <div>

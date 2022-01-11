@@ -1,11 +1,21 @@
 from django.shortcuts import render
 from django.core import serializers
-from .models import Product, ProductCategory
+from .models import Product, ProductCategory, Basket
 from django.http import JsonResponse
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
+
+def basket_count(request):
+    basket_count = 0
+    if request.user.is_authenticated:
+        basket_items = Basket.objects.filter(user=request.user)
+        for i in range(len(basket_items)):
+            basket_count += basket_items[i].quantity
+
+    return basket_count
 
 
 def index(request):
@@ -28,18 +38,31 @@ def index(request):
         if request.GET.get("price__from") and request.GET.get("price__to"):
             products = products.filter(discounted_price__range=(price__from, price__to))
 
-        products = serializers.serialize("json", products)
+        products = serializers.serialize("json", products[:int(request.GET.get('count_show'))])
 
         return JsonResponse(products, safe=False)
     else:
-        products = Product.objects.all()
+        products = Product.objects.all()[:2]
 
     categories = ProductCategory.objects.all()
 
     context = {
         'title': 'Головна сторінка сайту',
         'products': products,
-        'categories': categories
+        'categories': categories,
+        'basket_count': basket_count(request)
     }
 
     return render(request, 'main/index.html', context)
+
+
+def product(request, pk):
+    product = Product.objects.get(id=pk)
+
+    context = {
+        'title': 'Головна сторінка сайту',
+        'product': product,
+        'basket_count': basket_count(request)
+    }
+
+    return render(request, 'main/product.html', context)
