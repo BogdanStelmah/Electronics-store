@@ -7,7 +7,7 @@ from django.http import HttpResponseNotFound, JsonResponse
 from django.shortcuts import render, redirect
 
 from .forms import ProductForm, EditUserForm, CategoryForm, EditSuperUserForm
-from main.models import ProductCategory, Product
+from main.models import ProductCategory, Product, OrderItems, Order, Profile
 
 
 def admin_panel(request):
@@ -277,3 +277,44 @@ def edit_product(request, id):
 
     except Product.DoesNotExist:
         return HttpResponseNotFound("<h2>Такого товару не існує</h2>")
+
+
+def order_db(request):
+    orders_and_items = []
+    orders = Order.objects.all().order_by('order_status')
+
+    for i in range(orders.count()):
+        sum_price = 0
+        items = OrderItems.objects.filter(order=orders[i])
+
+        for j in range(items.count()):
+            sum_price += items[j].product.discounted_price * items[j].quantity
+
+        orders_and_items.append(
+            {"id": orders[i].id,
+             "user": orders[i].user.last_name + " " + orders[i].user.first_name,
+             "tel": Profile.objects.get(user=orders[i].user),
+             "status": orders[i].order_status,
+             "sum_price": sum_price,
+             "items": items})
+
+    context = {
+        'title': 'Замовлення',
+        'orders': orders_and_items
+    }
+
+    return render(request, 'admin_module/order.html', context)
+
+
+def order_shipped(request, id):
+    if not request.user.is_superuser:
+        return redirect('home')
+
+    try:
+        order = Order.objects.get(id=id)
+        order.order_status = True
+        order.save()
+
+        return redirect('order_db')
+    except Order.DoesNotExist:
+        return HttpResponseNotFound("<h2>Такого замовлення не існує</h2>")

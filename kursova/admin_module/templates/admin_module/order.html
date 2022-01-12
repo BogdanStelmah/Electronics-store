@@ -1,0 +1,63 @@
+{% extends 'admin_module/admin_panel.html' %}
+
+{% block info_item %}
+    {% if orders %}
+        {% for order in orders %}
+            <div class="admin_panel_product">
+                <div class="product_info">
+                    <p><b>Код замовлення: </b>{{ order.id }}</p>
+                    <p><b>Отримувач: </b>{{ order.user }}</p>
+                    <p><b>Телефон: </b>{{ order.tel.phone_number }}</p>
+                    <p><b>Пошта: </b>{{ order.tel.mail_address }}</p>
+                    <p><b>Статус: </b>
+                            {% if not order.status %}
+                                Чекає відправки
+                            {% else %}
+                                Відправлено
+                            {% endif %}
+                    </p>
+                    <p><b>Всього до сплати: </b></b>{{ order.sum_price }} грн</p>
+                    <div class="items__order">
+                            <table class="table__items__order">
+                                <tr>
+                                    <th>
+                                        <p>Ім'я товару</p>
+                                    </th>
+                                    <th>
+                                        <p>Ціна</p>
+                                    </th>
+                                    <th>
+                                        <p>Ціна зі знижкою</p>
+                                    </th>
+                                    <th>
+                                        <p>Кількість</p>
+                                    </th>
+                                </tr>
+                                {% for item in order.items %}
+                                <tr>
+                                    <td>
+                                        <p>{{ item.product.name }}</p>
+                                    </td>
+                                    <td>
+                                        <p>{{ item.product.price }} грн</p>
+                                    </td>
+                                    <td>
+                                        <p>{{ item.product.discounted_price }} грн</p>
+                                    </td>
+                                    <td>
+                                        <p>{{ item.quantity }} шт</p>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    {% if not order.status %}
+                        <a href="order_db/{{ order.id }}/order_shipped" class="button_edit">Відправити</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Список з замовленнями пустий</p>
+    {% endif %}
+{% endblock %}

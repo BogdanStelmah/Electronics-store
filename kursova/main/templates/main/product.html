@@ -19,6 +19,11 @@
     {% endif %}
 {% endblock %}
 
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="/static/slick-1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/slick-1.8.1/slick-theme.css"/>
+{% endblock %}
+
 {% block main %}
     <div class="main__product product">
         <div class="product__page__info__and__img">
@@ -33,10 +38,13 @@
                     <pre class="product__page__description__text">{{ product.description }}</pre>
                 </div>
                 <hr>
+
                 <div class="product__price">
                     <div class="info">
                         {% if product.number == 0 %}
-                        <p class="product__number">Немає в наявності</p>
+                            <p class="product__number">Немає в наявності</p>
+                        {% else %}
+                            <p>{{ product.number }} шт</p>
                         {% endif %}
                         <div class="block__basket__and__price">
                             <div>
@@ -65,43 +73,45 @@
             </div>
         </div>
         <div class="block__reviews reviews">
-                    <p class="product__page__description__title">Відгуки</p>
-                    {% for review in reviews %}
-                        <div class="reviews">
-                            <div class="reviews__title">
-                                <div>
-                                    {{ review.user.last_name }}
-                                    {{ review.user.first_name }}
-                                </div>
-                                {% if review.user == request.user %}
+            <p class="product__page__description__title">Відгуки</p>
+            {% for review in reviews %}
+                <div class="reviews">
+                    <div class="reviews__title">
+                        <div>
+                            {{ review.user.last_name }}
+                            {{ review.user.first_name }}
+                        </div>
+                            {% if review.user == request.user %}
                                 <div>
                                     <a href="reviews/{{ review.id }}" class="reviews__delete">X</a>
                                 </div>
-                                {% endif %}
-                            </div>
+                            {% endif %}
+                        </div>
                             <hr class="hr">
                             <pre>{{ review.reviews }}</pre>
                         </div>
+            {% endfor %}
+            {% if request.user.is_authenticated %}
+                <form method="post" class="reviews">
+                    {% csrf_token %}
+                    {% load widget_tweaks %}
+                    {{ request.user.last_name }}
+                    {{ request.user.first_name }}
+                    <hr class="hr">
+                    {% for f in form %}
+                        {% if f.errors %}
+                            {{ f.errors }}
+                        {% endif %}
                     {% endfor %}
-                    <form method="post" class="reviews">
-                        {% csrf_token %}
-                        {% load widget_tweaks %}
-                        {{ request.user.last_name }}
-                        {{ request.user.first_name }}
-                        <hr class="hr">
-                        {% for f in form %}
-                            {% if f.errors %}
-                                {{ f.errors }}
-                            {% endif %}
-                        {% endfor %}
-                        <div>
-                            <label>Відгук<br>
-                                {% render_field form.reviews class="input__textarea__form" %}
-                            </label>
-                        </div>
-                        <button type="submit" class="button__submit button__reviews">Залишити відгук</button>
-                    </form>
-                </div>
+                    <div>
+                        <label>Відгук<br>
+                            {% render_field form.reviews class="input__textarea__form" %}
+                        </label>
+                    </div>
+                    <button type="submit" class="button__submit button__reviews">Залишити відгук</button>
+                </form>
+            {% endif %}
+        </div>
     </div>
 {% endblock %}
 

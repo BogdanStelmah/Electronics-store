@@ -1,5 +1,20 @@
+from django.core.validators import RegexValidator
 from django.db import models
 from django.contrib.auth.models import User
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone_regex = RegexValidator(regex=r'^(\+?(38))?[-\(]?\d{3}\)?-?\d{3}-?\d{2}-?\d{2}$', message="Номер телефону повинен бути в форматі '+380XXXXXXXXX'")
+    phone_number = models.CharField(validators=[phone_regex], max_length=13, null=True, blank=True)
+    mail_address = models.CharField(max_length=100, null=True, blank=True)
+
+    def __str__(self):
+        return self.user
+
+    class Meta:
+        verbose_name = 'Профіль'
+        verbose_name_plural = 'Профіль'
 
 
 class ProductCategory(models.Model):
@@ -57,3 +72,28 @@ class ReviewsProduct(models.Model):
     class Meta:
         verbose_name = 'Відгук'
         verbose_name_plural = 'Відгуки'
+
+
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    order_status = models.BooleanField()
+
+    def __str__(self):
+        return str(self.id)
+
+    class Meta:
+        verbose_name = 'Замовлення'
+        verbose_name_plural = 'Замовлення'
+
+
+class OrderItems(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='orderItems')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=0, max_length=5)
+
+    def __str__(self):
+        return self.product.name
+
+    class Meta:
+        verbose_name = 'Замовленні товари'
+        verbose_name_plural = 'Замовленні товари'

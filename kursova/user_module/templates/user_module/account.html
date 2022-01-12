@@ -9,26 +9,95 @@
                 <table class="table__info">
                     <tr>
                         <th>Ім'я:</th>
-                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.user.first_name }}</td>
                     </tr>
                     <tr>
                         <th>Прізвище:</th>
-                        <td>{{ user.last_name }}</td>
+                        <td>{{ user.user.last_name }}</td>
                     </tr>
                     <tr>
                         <th>Логін:</th>
-                        <td>{{ user.username }}</td>
+                        <td>{{ user.user.username }}</td>
                     </tr>
                     <tr>
                         <th>Пошта:</th>
-                        <td>{{ user.email }}</td>
+                        <td>{{ user.user.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Телефон:</th>
+                        <td>{% if user.phone_number %}{{ user.phone_number }}{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <th>Адреса відділення:</th>
+                        <td>{% if user.mail_address %}{{ user.mail_address }}{% endif %}</td>
                     </tr>
                 </table>
             </div>
             <div>
-                <a href="account/edit/{{ user.id }}/" class="button edit__user">Змінити данні</a>
+                <a href="account/edit/{{ user.user.id }}/" class="button edit__user">Змінити данні</a>
             </div>
         </div>
         <hr>
+        <div class="main__orders">
+            <h1>Замовлення</h1>
+            {% if orders %}
+                {% for order in orders %}
+                    <div class="order">
+                        <p class="title__order">Код замовлення: {{ order.id }}</p>
+                        <p class="status__order">Статус:
+                            {% if not order.status %}
+                                Чекає відправки
+                            {% else %}
+                                Отримано
+                            {% endif %}
+                        </p>
+                        <hr>
+                        <div class="items__order">
+                            <table class="table__items__order">
+                                <tr>
+                                    <th>
+                                        <p>Ім'я товару</p>
+                                    </th>
+                                    <th>
+                                        <p>Ціна</p>
+                                    </th>
+                                    <th>
+                                        <p>Ціна зі знижкою</p>
+                                    </th>
+                                    <th>
+                                        <p>Кількість</p>
+                                    </th>
+                                </tr>
+                                {% for item in order.items %}
+                                <tr>
+                                    <td>
+                                        <p>{{ item.product.name }}</p>
+                                    </td>
+                                    <td>
+                                        <p>{{ item.product.price }} грн</p>
+                                    </td>
+                                    <td>
+                                        <p>{{ item.product.discounted_price }} грн</p>
+                                    </td>
+                                    <td>
+                                        <p>{{ item.quantity }} шт</p>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                        <hr>
+                        <div class="order__bottom">
+                            <p class="order__price">Всього до сплати: {{ order.sum_price }} грн</p>
+                            {% if not order.status %}
+                                <a href="order/{{ order.id }}/delete/" class="button_delete">Видалити замовлення</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Список порожній</p>
+            {% endif %}
+        </div>
     </div>
 {% endblock %}

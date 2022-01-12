@@ -317,6 +317,40 @@ input:focus{
     color: #505050;
 }
 
+.order{
+    border: 2px solid #505050;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 0 0 15px 0;
+    width: 800px;
+}
+.title__order, .status__order{
+    font-size: 17px;
+    padding: 0 0 10px 0;
+}
+.table__items__order{
+    width: 100%;
+}
+.table__items__order tr th, .table__items__order tr td{
+    border-bottom: 2px solid #505050;
+    border-left: 2px solid #505050;
+    padding: 10px;
+}
+.table__items__order tr:last-child th, .table__items__order tr:last-child td{
+    border-bottom: none;
+}
+.table__items__order tr th:first-child, .table__items__order tr td:first-child{
+    border-left: none;
+}
+.order__price{
+    padding: 10px 0 10px 0;
+    font-size: 17px;
+}
+.order__bottom{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 /*________Поле з пошуком_________*/
 .search_button{
     background: transparent;
@@ -357,6 +391,9 @@ input:focus{
 
 
 /*____________Кошик____________*/
+.input__basket__form{
+    width: 100%;
+}
 .main__basket{
     width: 100%;
 }

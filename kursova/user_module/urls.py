@@ -8,4 +8,7 @@ urlpatterns = [
 
     path('account', views.account, name='account'),
     path('account/edit/<int:id>/', views.edit_account),
+
+    path('order/<int:id>/delete/', views.delete_order),
+
 ]

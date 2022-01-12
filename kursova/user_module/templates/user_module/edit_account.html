@@ -8,6 +8,12 @@
             {% endif %}
         {% endfor %}
 
+        {% for f in form_profile %}
+            {% if f.errors %}
+                {{ f.errors }}
+            {% endif %}
+        {% endfor %}
+
         <h1>Зміна інофрмації</h1>
         <hr>
         <form method="post" enctype="multipart/form-data">
@@ -30,6 +36,16 @@
             <div>
                 <label>Почта<br>
                     {{ form.email }}
+                </label>
+            </div>
+            <div>
+                <label>Телефон<br>
+                    {{ form_profile.phone_number }}
+                </label>
+            </div>
+            <div>
+                <label>Адреса відділення<br>
+                    {{ form_profile.mail_address }}
                 </label>
             </div>
             <div>

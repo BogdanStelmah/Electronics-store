@@ -84,7 +84,20 @@
                                 </th>
                             </tr>
                         </table>
-                        <form action="basket/create_order" method="get">
+                        <hr>
+                        <form method="POST">
+                            {% csrf_token %}
+                            {% load widget_tweaks %}
+                            <div>
+                                <label>Телефон<br>
+                                    {% render_field form.phone_number class="input__basket__form" %}
+                                </label>
+                            </div>
+                            <div>
+                                <label>Адреса відділення<br>
+                                    {% render_field form.mail_address class="input__basket__form" %}
+                                </label>
+                            </div>
                             <button type="submit" class="button__submit order__button">Оформити заказ</button>
                         </form>
                     </div>

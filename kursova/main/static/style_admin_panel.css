@@ -130,3 +130,7 @@ td:last-child{
 #id_is_superuser{
     width: 30px;
 }
+
+.table__items__order tr th:last-child{
+    border-right: none;
+}
