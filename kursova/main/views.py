@@ -32,6 +32,7 @@ def index(request):
 
         products = Product.objects.all()
 
+
         if request.GET.getlist("category[]"):
             products = products.filter(categories__name__in=request.GET.getlist("category[]"))
 
@@ -41,11 +42,14 @@ def index(request):
         if request.GET.get("price__from") and request.GET.get("price__to"):
             products = products.filter(discounted_price__range=(price__from, price__to))
 
-        products = serializers.serialize("json", products[:int(request.GET.get('count_show'))])
+        try:
+            products = serializers.serialize("json", products[:int(request.GET.get('count_show')) + 1])
+        except ValueError:
+            return redirect('login')
 
         return JsonResponse(products, safe=False)
     else:
-        products = Product.objects.all()[:2]
+        products = Product.objects.all()[:10]
 
     categories = ProductCategory.objects.all()
 
@@ -53,7 +57,7 @@ def index(request):
         'title': 'Головна сторінка сайту',
         'products': products,
         'categories': categories,
-        'basket_count': basket_count(request)
+        'basket_count': basket_count(request),
     }
 
     return render(request, 'main/index.html', context)

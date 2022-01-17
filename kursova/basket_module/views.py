@@ -127,9 +127,6 @@ def delete_item_basket(request, pk):
         return HttpResponseNotFound("<h2>Такого товару не існує</h2>")
 
 
-
-
-
 def remove_quantity(request, pk):
     if not request.user.is_authenticated:
         return redirect('home')

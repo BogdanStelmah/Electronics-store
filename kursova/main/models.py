@@ -10,7 +10,7 @@ class Profile(models.Model):
     mail_address = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
-        return self.user
+        return self.user.username
 
     class Meta:
         verbose_name = 'Профіль'
@@ -29,8 +29,8 @@ class ProductCategory(models.Model):
 
 
 class Product(models.Model):
-    name = models.CharField('Назва товару', max_length=100)
-    image = models.ImageField(upload_to="photo/%Y/%m/%d/", null=True, blank=True)  # записує картрнку в католог
+    name = models.CharField('Назва товару', max_length=70)
+    image = models.ImageField(upload_to="photo/%Y/%m/%d/", null=True, blank=True)
     description = models.TextField('Опис продукту', null=True)
     price = models.FloatField('Ціна')
     discount = models.IntegerField('Знижка', max_length=3)

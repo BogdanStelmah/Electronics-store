@@ -134,3 +134,6 @@ td:last-child{
 .table__items__order tr th:last-child{
     border-right: none;
 }
+.search__user{
+    margin: 0;
+}

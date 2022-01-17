@@ -17,7 +17,8 @@ def admin_panel(request):
     context = {
         'title': 'Адмін панель'
     }
-    return render(request, 'admin_module/admin_panel.html', context)
+    return redirect('product_db')
+    # return render(request, 'admin_module/admin_panel.html', context)
 
 
 def is_ajax(request):
@@ -30,7 +31,7 @@ def users_db(request):
 
     if is_ajax(request):
         if request.GET.get('first_name'):
-            users = User.objects.filter(first_name=request.GET.get('first_name'))
+            users = User.objects.filter(first_name__icontains=request.GET.get('first_name'))
         else:
             users = User.objects.all()
 

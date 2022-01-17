@@ -12,6 +12,7 @@ from main.models import Profile, OrderItems, Order, Product
 
 from django.db.models import Count
 
+
 def login_page(request):
     if request.user.is_authenticated:
         return redirect('home')
@@ -92,6 +93,7 @@ def account(request):
         'title': 'Акаунт',
         'orders': orders_and_item
     }
+    print(type(context))
 
     return render(request, 'user_module/account.html', context)
 

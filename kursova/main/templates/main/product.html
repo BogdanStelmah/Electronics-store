@@ -19,11 +19,6 @@
     {% endif %}
 {% endblock %}
 
-{% block style %}
-    <link rel="stylesheet" type="text/css" href="/static/slick-1.8.1/slick/slick.css"/>
-    <link rel="stylesheet" type="text/css" href="/static/slick-1.8.1/slick-theme.css"/>
-{% endblock %}
-
 {% block main %}
     <div class="main__product product">
         <div class="product__page__info__and__img">
@@ -66,8 +61,9 @@
                 <hr>
                 {% if user.is_authenticated %}
                     <a href="/add_item_basket/{{ product.id }}/product" class="button__submit basket__text">Додати у кошик</a>
+                    <hr>
                 {% endif %}
-                <hr>
+
 
 
             </div>

@@ -3,7 +3,7 @@
 {% block info_item %}
     <form method="get">
         <div class="search_block">
-            <input type="search" name="search" placeholder="Введіть ім'я..." id="search_name_user">
+            <input type="search" name="search" placeholder="Введіть ім'я..." id="search_name_user" class="search__user">
             <button type="button" class="search_button_dr" id="search_user">Пошук</button>
         </div>
     </form>
@@ -61,6 +61,6 @@
             </table>
         </div>
     {% else %}
-        <p>Список з користувачами пустий</p>
+        <p id="message">Список з користувачами пустий</p>
     {% endif %}
 {% endblock %}

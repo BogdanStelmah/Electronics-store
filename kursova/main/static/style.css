@@ -174,7 +174,7 @@ input:focus{
 .navigation__title, .navigation__price{
     color: #d9d4d4;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 18px;
     margin-bottom: 10px;
 }
 .navigation__price{
@@ -220,14 +220,12 @@ input:focus{
     border: 1px solid #7c7c7c;
     padding: 10px;
     margin: 0 0 10px 10px;
-    height: 370px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 .items__product > a > img{
     width: 240px;
-    height: 240px;
 }
 .product__info{
     padding: 10px 0 0 0;height: 100%;
@@ -237,6 +235,7 @@ input:focus{
 }
 .product__info > h3{
     margin: 0 0 20px 0;
+    width: 240px;
 }
 .product__price__old{
     display: flex;
@@ -289,6 +288,10 @@ input:focus{
     border-radius: 5px;
     padding: 8px;
     width: 150px;
+}
+
+.search__and__items{
+    width: 100%;
 }
 
 /*__________Реєстрація___________*/
@@ -356,8 +359,8 @@ input:focus{
     background: transparent;
     padding: 8px 15px;
     border-radius: 6px;
-    border: 3px solid #d9d4d4;
-    color: #d9d4d4;
+    border: 3px solid #505050;
+    color: #505050;
 }
 
 .search_button:hover{
@@ -366,9 +369,16 @@ input:focus{
 }
 
 .search_block{
+    width: 100%;
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+    align-items: flex-start;
+}
+.search_input{
+    margin: 0 0 10px 9px;
+    width: 100%;
+}
+.list__empty{
+    margin: 0 0 0 10px;
 }
 
 
@@ -414,10 +424,10 @@ input:focus{
 }
 .item__info{
     padding-left: 50px;
+    width: 350px;
 }
 .item__img > img{
     width: 150px;
-    height: 150px;
 }
 .remove__quantity, .add__quantity{
     border: 2px solid #505050;
@@ -447,6 +457,9 @@ input:focus{
     justify-content: space-between;
     align-items: center;
     width: 400px;
+}
+.item__quantity{
+    width: 115px;
 }
 .price__all__items{
     border: 2px solid #505050;

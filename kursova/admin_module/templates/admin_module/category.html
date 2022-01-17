@@ -28,8 +28,8 @@
         {% endfor %}
             </table>
         </div>
-        <a href="{% url 'add_category' %}" class="button_add">Нова категорія</a>
     {% else %}
         <p>Список з товарами пустий</p>
     {% endif %}
+    <a href="{% url 'add_category' %}" class="button_add">Нова категорія</a>
 {% endblock %}
